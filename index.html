@@ -25,6 +25,17 @@
             --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             --mono: 'DM Mono', 'Courier New', monospace;
         }
+        [data-theme="light"] {
+            --bg: #f5f3ee;
+            --bg-alt: #ebe8e1;
+            --text: #1a1a1a;
+            --text-muted: #5a5a5a;
+            --accent: #9a7b4f;
+            --accent2: #6b5a3e;
+            --border: rgba(26, 26, 26, 0.1);
+            --border-hover: rgba(26, 26, 26, 0.2);
+            --card-bg: rgba(255, 255, 255, 0.7);
+        }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -141,6 +152,27 @@
         }
         .nav-links a:hover { color: var(--text); }
         .nav-links a:hover::after { width: 100%; }
+
+        /* ─── THEME TOGGLE ─── */
+        .theme-toggle {
+            background: none; border: none; cursor: pointer;
+            width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+            position: relative;
+        }
+        .theme-toggle:hover { color: var(--accent); transform: rotate(20deg); }
+        .theme-toggle .icon-sun,
+        .theme-toggle .icon-moon {
+            position: absolute;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .theme-toggle .icon-sun { opacity: 0; transform: rotate(-90deg) scale(0.5); }
+        .theme-toggle .icon-moon { opacity: 1; transform: rotate(0deg) scale(1); }
+        [data-theme="light"] .theme-toggle .icon-sun { opacity: 1; transform: rotate(0deg) scale(1); }
+        [data-theme="light"] .theme-toggle .icon-moon { opacity: 0; transform: rotate(90deg) scale(0.5); }
 
         /* ─── LAYOUT ─── */
         .container { max-width: 1200px; margin: 0 auto; padding: 0 3rem; }
@@ -526,6 +558,10 @@
             <li><a href="#formacion">Formación</a></li>
             <li><a href="#descargar">CV</a></li>
         </ul>
+        <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
+            <i class="fas fa-sun icon-sun"></i>
+            <i class="fas fa-moon icon-moon"></i>
+        </button>
     </nav>
 
     <!-- HERO -->
@@ -944,6 +980,18 @@
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
+        });
+
+        /* ─── THEME TOGGLE ─── */
+        const themeToggle = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const current = document.documentElement.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
         });
     </script>
 </body>
