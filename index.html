@@ -271,6 +271,7 @@
             gap: 1.5rem; margin-bottom: 4rem;
             border-bottom: 1px solid var(--border);
             padding-bottom: 1.5rem;
+            perspective: 1000px;
         }
         .section-num {
             font-family: var(--mono);
@@ -283,6 +284,8 @@
             font-size: clamp(2rem, 4vw, 3.2rem);
             font-weight: 700;
             letter-spacing: -0.02em;
+            transition: transform 0.3s ease-out;
+            transform-style: preserve-3d;
         }
         .section-title em {
             font-style: italic;
@@ -439,6 +442,20 @@
             font-weight: 700;
             letter-spacing: -0.02em;
             margin-bottom: 1rem;
+        }
+        .cta-title-link {
+            display: inline-block;
+            text-decoration: none;
+            color: var(--text);
+            perspective: 1000px;
+            transition: transform 0.3s ease-out;
+        }
+        .cta-title-link h2 {
+            transition: transform 0.3s ease-out;
+            transform-style: preserve-3d;
+        }
+        .cta-title-link:hover h2 {
+            color: var(--accent);
         }
         .cta-section p {
             font-family: var(--mono);
@@ -755,10 +772,8 @@
     <section id="descargar" class="cta-section">
         <div class="container">
             <p style="font-family: var(--mono); font-size: 0.7rem; color: var(--text-muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 2rem;" class="reveal">Versión actualizada — Junio 2026</p>
-            <h2 class="reveal">Descargar <em>CV</em></h2>
-            <a href="CV-Esteban-Garcia.pdf" download class="btn-download reveal-scale">
-                <span>DESCARGAR PDF</span>
-                <i class="fas fa-download"></i>
+            <a href="CV-Esteban-Garcia.pdf" download class="cta-title-link reveal-scale">
+                <h2>Descargar <em>CV</em></h2>
             </a>
         </div>
     </section>
@@ -1000,6 +1015,55 @@
             document.documentElement.setAttribute('data-theme', next);
             localStorage.setItem('theme', next);
         });
+
+        /* ─── TITLE PARALLAX ON HOVER ─── */
+        document.querySelectorAll('.section-header').forEach(header => {
+            const title = header.querySelector('.section-title');
+            const num = header.querySelector('.section-num');
+            
+            header.addEventListener('mousemove', (e) => {
+                const rect = header.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                
+                title.style.transform = `rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateZ(10px)`;
+                if (num) num.style.transform = `translateX(${x * 5}px) translateY(${y * 3}px)`;
+            });
+            
+            header.addEventListener('mouseleave', () => {
+                title.style.transform = 'rotateY(0deg) rotateX(0deg) translateZ(0px)';
+                if (num) num.style.transform = 'translateX(0px) translateY(0px)';
+            });
+        });
+
+        /* ─── HERO NAME PARALLAX ─── */
+        const heroH1 = document.querySelector('.hero-text h1');
+        if (heroH1) {
+            heroH1.addEventListener('mousemove', (e) => {
+                const rect = heroH1.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                heroH1.style.transform = `rotateY(${x * 5}deg) rotateX(${-y * 5}deg)`;
+            });
+            heroH1.addEventListener('mouseleave', () => {
+                heroH1.style.transform = 'rotateY(0deg) rotateX(0deg)';
+            });
+        }
+
+        /* ─── CTA TITLE PARALLAX ─── */
+        const ctaLink = document.querySelector('.cta-title-link');
+        if (ctaLink) {
+            const ctaH2 = ctaLink.querySelector('h2');
+            ctaLink.addEventListener('mousemove', (e) => {
+                const rect = ctaLink.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                ctaH2.style.transform = `rotateY(${x * 10}deg) rotateX(${-y * 10}deg) translateZ(15px)`;
+            });
+            ctaLink.addEventListener('mouseleave', () => {
+                ctaH2.style.transform = 'rotateY(0deg) rotateX(0deg) translateZ(0px)';
+            });
+        }
     </script>
 </body>
 </html>
