@@ -5,6 +5,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Esteban García | Técnico en Electrónica</title>
+    <meta name="description" content="CV de Esteban García - Técnico en Electrónica en Montevideo, Uruguay. Especialista en mantenimiento industrial, reparación de hardware y sistemas de control.">
+    <meta name="keywords" content="técnico electrónica, mantenimiento industrial, reparación hardware, Montevideo, Uruguay, CV, resume">
+    <meta name="author" content="Esteban García">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="profile">
+    <meta property="og:title" content="Esteban García | Técnico en Electrónica">
+    <meta property="og:description" content="CV de Esteban García - Técnico en Electrónica en Montevideo, Uruguay. Especialista en mantenimiento industrial, reparación de hardware y sistemas de control.">
+    <meta property="og:image" content="foto_perfil.jpg">
+    <meta property="og:url" content="https://garest22.github.io/">
+    <meta property="og:site_name" content="Esteban García CV">
+    <meta property="og:locale" content="es_UY">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Esteban García | Técnico en Electrónica">
+    <meta name="twitter:description" content="CV de Esteban García - Técnico en Electrónica en Montevideo, Uruguay.">
+    <meta name="twitter:image" content="foto_perfil.jpg">
+    
+    <!-- Additional -->
+    <meta name="theme-color" content="#0a0a0a">
+    <meta name="msapplication-TileColor" content="#0a0a0a">
+    <link rel="canonical" href="https://garest22.github.io/">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -1077,7 +1102,7 @@
                     </div>
                 </div>
                 <div class="hero-photo">
-                    <img src="foto_perfil.png" alt="Esteban García" loading="eager">
+                    <img src="foto_perfil.jpg" alt="Esteban García" loading="eager">
                 </div>
             </div>
         </div>
@@ -1656,6 +1681,107 @@
                 ctaH2.style.transform = 'rotateY(0deg) rotateX(0deg) translateZ(0px)';
             });
         }
+
+        /* ─── BASIC ANALYTICS ─── */
+        (function() {
+            'use strict';
+            
+            var analytics = {
+                init: function() {
+                    this.trackVisit();
+                    this.trackScrollDepth();
+                    this.trackTimeOnPage();
+                    this.trackInteractions();
+                },
+                
+                trackVisit: function() {
+                    var visits = parseInt(localStorage.getItem('cv_visits') || '0');
+                    visits++;
+                    localStorage.setItem('cv_visits', visits);
+                    localStorage.setItem('cv_last_visit', new Date().toISOString());
+                },
+                
+                trackScrollDepth: function() {
+                    var maxScroll = 0;
+                    var sections = ['hero', 'perfil', 'experiencia', 'formacion', 'descargar'];
+                    
+                    window.addEventListener('scroll', function() {
+                        var scrollTop = window.scrollY;
+                        var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                        var scrollPercent = Math.round((scrollTop / docHeight) * 100);
+                        
+                        if (scrollPercent > maxScroll) {
+                            maxScroll = scrollPercent;
+                            localStorage.setItem('cv_max_scroll', maxScroll);
+                        }
+                        
+                        sections.forEach(function(section) {
+                            var el = document.getElementById(section);
+                            if (el) {
+                                var rect = el.getBoundingClientRect();
+                                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                                    var viewed = localStorage.getItem('cv_viewed_' + section) || '0';
+                                    if (viewed === '0') {
+                                        localStorage.setItem('cv_viewed_' + section, '1');
+                                    }
+                                }
+                            }
+                        });
+                    }, { passive: true });
+                },
+                
+                trackTimeOnPage: function() {
+                    var startTime = Date.now();
+                    
+                    window.addEventListener('beforeunload', function() {
+                        var timeSpent = Math.round((Date.now() - startTime) / 1000);
+                        var totalTime = parseInt(localStorage.getItem('cv_total_time') || '0');
+                        localStorage.setItem('cv_total_time', totalTime + timeSpent);
+                    });
+                },
+                
+                trackInteractions: function() {
+                    var clicks = parseInt(localStorage.getItem('cv_clicks') || '0');
+                    
+                    document.addEventListener('click', function(e) {
+                        clicks++;
+                        localStorage.setItem('cv_clicks', clicks);
+                        
+                        var target = e.target.closest('a, button');
+                        if (target) {
+                            var action = target.href || target.textContent.trim();
+                            var interactionLog = JSON.parse(localStorage.getItem('cv_interactions') || '[]');
+                            interactionLog.push({
+                                action: action,
+                                time: new Date().toISOString()
+                            });
+                            if (interactionLog.length > 50) interactionLog.shift();
+                            localStorage.setItem('cv_interactions', JSON.stringify(interactionLog));
+                        }
+                    });
+                },
+                
+                getReport: function() {
+                    return {
+                        visits: localStorage.getItem('cv_visits') || '0',
+                        lastVisit: localStorage.getItem('cv_last_visit'),
+                        maxScroll: localStorage.getItem('cv_max_scroll') || '0',
+                        totalTime: localStorage.getItem('cv_total_time') || '0',
+                        clicks: localStorage.getItem('cv_clicks') || '0',
+                        sectionsViewed: {
+                            hero: localStorage.getItem('cv_viewed_hero') || '0',
+                            perfil: localStorage.getItem('cv_viewed_perfil') || '0',
+                            experiencia: localStorage.getItem('cv_viewed_experiencia') || '0',
+                            formacion: localStorage.getItem('cv_viewed_formacion') || '0',
+                            descargar: localStorage.getItem('cv_viewed_descargar') || '0'
+                        }
+                    };
+                }
+            };
+            
+            analytics.init();
+            window.cvAnalytics = analytics;
+        })();
     </script>
 </body>
 
