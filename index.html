@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Esteban García | Técnico en Electrónica</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -25,6 +28,7 @@
             --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             --mono: 'DM Mono', 'Courier New', monospace;
         }
+
         [data-theme="light"] {
             --bg: #f5f3ee;
             --bg-alt: #ebe8e1;
@@ -37,16 +41,30 @@
             --card-bg: rgba(255, 255, 255, 0.7);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         html {
             scroll-behavior: smooth;
             scrollbar-width: thin;
             scrollbar-color: var(--accent2) var(--bg);
         }
-        html::-webkit-scrollbar { width: 6px; }
-        html::-webkit-scrollbar-track { background: var(--bg); }
-        html::-webkit-scrollbar-thumb { background: var(--accent2); border-radius: 3px; }
+
+        html::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        html::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        html::-webkit-scrollbar-thumb {
+            background: var(--accent2);
+            border-radius: 3px;
+        }
 
         body {
             font-family: var(--sans);
@@ -60,11 +78,17 @@
 
         /* ─── LOADER ─── */
         .loader {
-            position: fixed; inset: 0; z-index: 10000;
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
             background: var(--bg);
-            display: flex; align-items: center; justify-content: center;
-            flex-direction: column; gap: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 1.5rem;
         }
+
         .loader-name {
             font-family: var(--serif);
             font-size: clamp(2rem, 5vw, 3.5rem);
@@ -72,14 +96,18 @@
             color: var(--text);
             overflow: hidden;
         }
+
         .loader-name span {
             display: inline-block;
             transform: translateY(110%);
         }
+
         .loader-line {
-            width: 0; height: 1px;
+            width: 0;
+            height: 1px;
             background: var(--accent);
         }
+
         .loader-role {
             font-family: var(--mono);
             font-size: 0.8rem;
@@ -91,7 +119,8 @@
 
         /* ─── CURSOR ─── */
         .cursor {
-            width: 16px; height: 16px;
+            width: 16px;
+            height: 16px;
             border: 1.5px solid var(--text);
             border-radius: 50%;
             position: fixed;
@@ -101,15 +130,14 @@
             transform: translate(-50%, -50%);
             mix-blend-mode: difference;
         }
-        .cursor.hover {
-            width: 50px; height: 50px;
-            background: rgba(201, 169, 110, 0.15);
-            border-color: var(--accent);
-        }
 
         /* ─── PROGRESS BAR ─── */
         .progress-bar {
-            position: fixed; top: 0; left: 0; height: 2px; z-index: 9999;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            z-index: 9999;
             background: linear-gradient(90deg, var(--accent), var(--text));
             width: 0%;
             transform-origin: left;
@@ -117,18 +145,26 @@
 
         /* ─── NAV ─── */
         nav {
-            position: fixed; top: 0; left: 0; right: 0;
-            z-index: 1000; padding: 1.2rem 3rem;
-            display: flex; justify-content: space-between; align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1.2rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             background: rgba(10, 10, 10, 0.6);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
             transition: background 0.3s ease;
         }
+
         [data-theme="light"] nav {
             background: rgba(245, 243, 238, 0.7);
         }
+
         .nav-logo {
             font-family: var(--serif);
             font-size: 1.3rem;
@@ -136,10 +172,95 @@
             color: var(--text);
             text-decoration: none;
             letter-spacing: -0.02em;
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            height: 1.3em;
         }
+
+        .logo-short,
+        .logo-part1,
+        .logo-part2 {
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .logo-short {
+            opacity: 1;
+            filter: blur(0px);
+            transform: translateX(0) scale(1);
+            transition: opacity 0.3s ease,
+                filter 0.4s ease,
+                transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .logo-part1 {
+            position: absolute;
+            left: 0;
+            opacity: 0;
+            filter: blur(6px);
+            transform: translateX(-15px) scale(0.95);
+            transition: opacity 0.4s ease,
+                filter 0.5s ease,
+                transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .logo-part2 {
+            position: absolute;
+            left: 6.5ch;
+            opacity: 0;
+            filter: blur(6px);
+            transform: translateX(-10px) scale(0.95);
+            transition: opacity 0.4s ease,
+                filter 0.5s ease,
+                transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .nav-logo:hover .logo-short {
+            opacity: 0;
+            filter: blur(6px);
+            transform: translateX(15px) scale(0.95);
+        }
+
+        .nav-logo:hover .logo-part1 {
+            opacity: 1;
+            filter: blur(0px);
+            transform: translateX(0) scale(1);
+            transition-delay: 0.05s;
+        }
+
+        .nav-logo:hover .logo-part2 {
+            opacity: 1;
+            filter: blur(0px);
+            transform: translateX(0) scale(1);
+            transition-delay: 0.15s;
+            animation: bounceIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: translateX(-10px) scale(0.95);
+            }
+
+            60% {
+                transform: translateX(3px) scale(1.02);
+            }
+
+            80% {
+                transform: translateX(-1px) scale(0.99);
+            }
+
+            100% {
+                transform: translateX(0) scale(1);
+            }
+        }
+
         .nav-links {
-            display: flex; gap: 2.5rem; list-style: none;
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
         }
+
         .nav-links a {
             font-family: var(--mono);
             font-size: 0.72rem;
@@ -150,47 +271,89 @@
             transition: color 0.3s ease;
             position: relative;
         }
+
         .nav-links a::after {
             content: '';
-            position: absolute; bottom: -4px; left: 0;
-            width: 0; height: 1px;
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
             background: var(--accent);
             transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .nav-links a:hover { color: var(--text); }
-        .nav-links a:hover::after { width: 100%; }
+
+        .nav-links a:hover {
+            color: var(--text);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
 
         /* ─── THEME TOGGLE ─── */
         .theme-toggle {
-            background: none; border: none; cursor: pointer;
-            width: 40px; height: 40px;
-            display: flex; align-items: center; justify-content: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: var(--text-muted);
             font-size: 1.1rem;
             transition: color 0.3s ease, transform 0.3s ease;
             position: relative;
         }
-        .theme-toggle:hover { color: var(--accent); transform: rotate(20deg); }
+
+        .theme-toggle:hover {
+            color: var(--accent);
+            transform: rotate(20deg);
+        }
+
         .theme-toggle .icon-sun,
         .theme-toggle .icon-moon {
             position: absolute;
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
-        .theme-toggle .icon-sun { opacity: 0; transform: rotate(-90deg) scale(0.5); }
-        .theme-toggle .icon-moon { opacity: 1; transform: rotate(0deg) scale(1); }
-        [data-theme="light"] .theme-toggle .icon-sun { opacity: 1; transform: rotate(0deg) scale(1); }
-        [data-theme="light"] .theme-toggle .icon-moon { opacity: 0; transform: rotate(90deg) scale(0.5); }
+
+        .theme-toggle .icon-sun {
+            opacity: 0;
+            transform: rotate(-90deg) scale(0.5);
+        }
+
+        .theme-toggle .icon-moon {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        [data-theme="light"] .theme-toggle .icon-sun {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+
+        [data-theme="light"] .theme-toggle .icon-moon {
+            opacity: 0;
+            transform: rotate(90deg) scale(0.5);
+        }
 
         /* ─── LAYOUT ─── */
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 3rem; }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 3rem;
+        }
 
         /* ─── HERO ─── */
         .hero {
             min-height: 100vh;
-            display: flex; align-items: center;
+            display: flex;
+            align-items: center;
             padding: 0;
             position: relative;
         }
+
         .hero-inner {
             display: grid;
             grid-template-columns: 1fr auto;
@@ -198,6 +361,7 @@
             align-items: center;
             width: 100%;
         }
+
         .hero-text h1 {
             font-family: var(--serif);
             font-size: clamp(3.5rem, 8vw, 7rem);
@@ -205,17 +369,21 @@
             line-height: 1.0;
             letter-spacing: -0.03em;
         }
+
         .hero-text h1 .line {
             display: block;
             overflow: hidden;
         }
+
         .hero-text h1 .line span {
             display: inline-block;
         }
+
         .hero-text h1 em {
             font-style: italic;
             color: var(--accent);
         }
+
         .hero-sub {
             font-family: var(--mono);
             font-size: 0.8rem;
@@ -224,31 +392,41 @@
             letter-spacing: 0.1em;
             text-transform: uppercase;
         }
+
         .hero-photo {
-            width: 320px; height: 400px;
+            width: 320px;
+            height: 400px;
             overflow: hidden;
             position: relative;
         }
+
         .hero-photo img {
-            width: 100%; height: 100%;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
             filter: grayscale(30%);
             transition: filter 0.6s ease, transform 0.6s ease;
         }
+
         .hero-photo:hover img {
             filter: grayscale(0%);
             transform: scale(1.05);
         }
+
         .hero-photo::after {
             content: '';
-            position: absolute; inset: 0;
+            position: absolute;
+            inset: 0;
             border: 1px solid var(--border);
             pointer-events: none;
         }
+
         .hero-contact {
-            display: flex; gap: 1rem;
+            display: flex;
+            gap: 1rem;
             align-items: center;
         }
+
         .hero-contact a {
             font-family: var(--mono);
             font-size: 0.7rem;
@@ -258,27 +436,54 @@
             text-transform: uppercase;
             transition: color 0.3s;
         }
-        .hero-contact a:hover { color: var(--accent); }
+
+        .hero-contact a:hover {
+            color: var(--accent);
+        }
+
         .hero-contact .dot {
-            width: 3px; height: 3px;
+            width: 3px;
+            height: 3px;
             background: var(--text-muted);
             border-radius: 50%;
         }
 
+        /* ─── LINK ICONS ─── */
+        .link-icon {
+            display: inline-block;
+            width: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                opacity 0.3s ease,
+                margin-right 0.3s ease;
+            margin-right: 0;
+        }
+
+        a:hover .link-icon {
+            width: 1em;
+            opacity: 1;
+            margin-right: 0.4em;
+        }
+
         /* ─── SECTION TITLES ─── */
         .section-header {
-            display: flex; align-items: baseline;
-            gap: 1.5rem; margin-bottom: 4rem;
+            display: flex;
+            align-items: baseline;
+            gap: 1.5rem;
+            margin-bottom: 4rem;
             border-bottom: 1px solid var(--border);
             padding-bottom: 1.5rem;
             perspective: 1000px;
         }
+
         .section-num {
             font-family: var(--mono);
             font-size: 0.7rem;
             color: var(--accent);
             letter-spacing: 0.15em;
         }
+
         .section-title {
             font-family: var(--serif);
             font-size: clamp(2rem, 4vw, 3.2rem);
@@ -287,9 +492,24 @@
             transition: transform 0.3s ease-out;
             transform-style: preserve-3d;
         }
+
         .section-title em {
             font-style: italic;
             color: var(--accent);
+        }
+
+        .section-icon {
+            margin-left: auto;
+            font-size: 1.5rem;
+            color: var(--accent);
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .section-header:hover .section-icon {
+            opacity: 1;
+            transform: translateX(0);
         }
 
         /* ─── CARD ─── */
@@ -301,6 +521,7 @@
             backdrop-filter: blur(20px);
             transition: border-color 0.5s ease, transform 0.5s ease;
         }
+
         .card:hover {
             border-color: var(--border-hover);
             transform: translateY(-4px);
@@ -312,22 +533,29 @@
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
         }
+
         .about-text p {
             font-size: 1.05rem;
             color: var(--text-muted);
             line-height: 1.9;
             margin-bottom: 1.5rem;
         }
-        .about-text p:last-child { margin-bottom: 0; }
+
+        .about-text p:last-child {
+            margin-bottom: 0;
+        }
+
         .about-stats {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
         }
+
         .stat {
             padding: 1.5rem 0;
             border-top: 1px solid var(--border);
         }
+
         .stat-num {
             font-family: var(--serif);
             font-size: 2.5rem;
@@ -335,6 +563,7 @@
             color: var(--accent);
             line-height: 1;
         }
+
         .stat-label {
             font-family: var(--mono);
             font-size: 0.7rem;
@@ -353,8 +582,15 @@
             border-bottom: 1px solid var(--border);
             transition: background 0.4s ease;
         }
-        .exp-item:first-child { border-top: 1px solid var(--border); }
-        .exp-item:hover { background: rgba(201, 169, 110, 0.03); }
+
+        .exp-item:first-child {
+            border-top: 1px solid var(--border);
+        }
+
+        .exp-item:hover {
+            background: rgba(201, 169, 110, 0.03);
+        }
+
         .exp-date {
             font-family: var(--mono);
             font-size: 0.75rem;
@@ -362,12 +598,14 @@
             letter-spacing: 0.08em;
             padding-top: 0.3rem;
         }
+
         .exp-content h3 {
             font-family: var(--serif);
             font-size: 1.6rem;
             font-weight: 600;
             margin-bottom: 0.3rem;
         }
+
         .exp-company {
             font-family: var(--mono);
             font-size: 0.8rem;
@@ -375,9 +613,12 @@
             letter-spacing: 0.05em;
             margin-bottom: 1.2rem;
         }
+
         .exp-content ul {
-            list-style: none; padding: 0;
+            list-style: none;
+            padding: 0;
         }
+
         .exp-content li {
             font-size: 0.92rem;
             color: var(--text-muted);
@@ -385,10 +626,14 @@
             padding-left: 1.2rem;
             position: relative;
         }
+
         .exp-content li::before {
             content: '';
-            position: absolute; left: 0; top: 0.65rem;
-            width: 5px; height: 1px;
+            position: absolute;
+            left: 0;
+            top: 0.65rem;
+            width: 5px;
+            height: 1px;
             background: var(--accent);
         }
 
@@ -398,6 +643,7 @@
             grid-template-columns: 1fr 1fr;
             gap: 3rem;
         }
+
         .edu-block h3 {
             font-family: var(--mono);
             font-size: 0.7rem;
@@ -408,23 +654,30 @@
             padding-bottom: 0.8rem;
             border-bottom: 1px solid var(--border);
         }
+
         .edu-item {
             padding: 1.2rem 0;
             border-bottom: 1px solid var(--border);
         }
-        .edu-item:last-child { border-bottom: none; }
+
+        .edu-item:last-child {
+            border-bottom: none;
+        }
+
         .edu-item strong {
             font-family: var(--serif);
             font-size: 1.1rem;
             font-weight: 600;
             display: block;
         }
+
         .edu-item span {
             font-family: var(--mono);
             font-size: 0.72rem;
             color: var(--accent);
             letter-spacing: 0.08em;
         }
+
         .edu-inst {
             font-size: 0.85rem;
             color: var(--text-muted);
@@ -436,6 +689,7 @@
             padding: 10rem 0;
             text-align: center;
         }
+
         .cta-section h2 {
             font-family: var(--serif);
             font-size: clamp(2.5rem, 5vw, 4rem);
@@ -443,6 +697,7 @@
             letter-spacing: -0.02em;
             margin-bottom: 1rem;
         }
+
         .cta-title-link {
             display: inline-block;
             text-decoration: none;
@@ -450,13 +705,53 @@
             perspective: 1000px;
             transition: transform 0.3s ease-out;
         }
+
         .cta-title-link h2 {
             transition: transform 0.3s ease-out;
             transform-style: preserve-3d;
         }
+
         .cta-title-link:hover h2 {
             color: var(--accent);
         }
+
+        .cta-icons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .cta-title-link:hover .cta-icons {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cta-icons i {
+            font-size: 1.2rem;
+            color: var(--accent);
+        }
+
+        .cta-icons .fa-arrow-down {
+            animation: bounceDown 1s ease infinite;
+        }
+
+        @keyframes bounceDown {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(5px);
+            }
+        }
+
         .cta-section p {
             font-family: var(--mono);
             font-size: 0.8rem;
@@ -465,8 +760,11 @@
             text-transform: uppercase;
             margin-bottom: 3rem;
         }
+
         .btn-download {
-            display: inline-flex; align-items: center; gap: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
             padding: 1rem 3rem;
             font-family: var(--mono);
             font-size: 0.75rem;
@@ -475,40 +773,64 @@
             text-transform: uppercase;
             color: var(--bg);
             background: var(--text);
-            border: none; border-radius: 0;
+            border: none;
+            border-radius: 0;
             cursor: pointer;
             text-decoration: none;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
             overflow: hidden;
         }
+
         .btn-download::before {
             content: '';
-            position: absolute; inset: 0;
+            position: absolute;
+            inset: 0;
             background: var(--accent);
             transform: translateX(-101%);
             transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .btn-download:hover::before { transform: translateX(0); }
-        .btn-download span { position: relative; z-index: 1; }
-        .btn-download i { position: relative; z-index: 1; transition: transform 0.3s ease; }
-        .btn-download:hover i { transform: translateY(3px); }
+
+        .btn-download:hover::before {
+            transform: translateX(0);
+        }
+
+        .btn-download span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-download i {
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-download:hover i {
+            transform: translateY(3px);
+        }
 
         /* ─── FOOTER ─── */
         footer {
             border-top: 1px solid var(--border);
             padding: 3rem;
-            display: flex; justify-content: space-between; align-items: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
+
         .footer-left {
             font-family: var(--mono);
             font-size: 0.7rem;
             color: var(--text-muted);
             letter-spacing: 0.08em;
         }
+
         .footer-links {
-            display: flex; gap: 2rem;
+            display: flex;
+            gap: 2rem;
         }
+
         .footer-links a {
             font-family: var(--mono);
             font-size: 0.7rem;
@@ -518,43 +840,180 @@
             text-transform: uppercase;
             transition: color 0.3s;
         }
-        .footer-links a:hover { color: var(--accent); }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        /* ─── THEME TRANSITION ─── */
+        .theme-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10001;
+            pointer-events: none;
+            transform: scaleX(0);
+            transform-origin: left;
+        }
+
+        .theme-transition.to-dark {
+            background: #0a0a0a;
+            animation: wipeDark 0.6s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+        }
+
+        .theme-transition.to-light {
+            background: #f5f3ee;
+            animation: wipeLight 0.6s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+        }
+
+        @keyframes wipeDark {
+            0% {
+                transform: scaleX(0);
+                transform-origin: left;
+            }
+
+            50% {
+                transform: scaleX(1);
+                transform-origin: left;
+            }
+
+            50.1% {
+                transform: scaleX(1);
+                transform-origin: right;
+            }
+
+            100% {
+                transform: scaleX(0);
+                transform-origin: right;
+            }
+        }
+
+        @keyframes wipeLight {
+            0% {
+                transform: scaleX(0);
+                transform-origin: right;
+            }
+
+            50% {
+                transform: scaleX(1);
+                transform-origin: right;
+            }
+
+            50.1% {
+                transform: scaleX(1);
+                transform-origin: left;
+            }
+
+            100% {
+                transform: scaleX(0);
+                transform-origin: left;
+            }
+        }
 
         /* ─── REVEAL ANIMATIONS ─── */
-        .reveal { opacity: 0; transform: translateY(60px); }
-        .reveal-left { opacity: 0; transform: translateX(-60px); }
-        .reveal-right { opacity: 0; transform: translateX(60px); }
-        .reveal-scale { opacity: 0; transform: scale(0.9); }
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-60px);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(60px);
+        }
+
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.9);
+        }
 
         /* ─── HORIZONTAL RULE ─── */
         .hr-accent {
-            width: 60px; height: 1px;
+            width: 60px;
+            height: 1px;
             background: var(--accent);
             margin: 4rem 0;
         }
 
         /* ─── RESPONSIVE ─── */
         @media (max-width: 900px) {
-            .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
-            .hero-photo { width: 260px; height: 320px; }
-            .about-grid { grid-template-columns: 1fr; gap: 3rem; }
-            .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
-            .edu-grid { grid-template-columns: 1fr; }
-            nav { padding: 1.5rem 2rem; }
-            .nav-links { gap: 1.5rem; }
-            .container { padding: 0 2rem; }
-            .card { padding: 2rem; }
-            footer { flex-direction: column; gap: 1.5rem; text-align: center; }
-            .cursor { display: none; }
+            .hero-inner {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .hero-photo {
+                width: 260px;
+                height: 320px;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .exp-item {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            .edu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            nav {
+                padding: 1.5rem 2rem;
+            }
+
+            .nav-links {
+                gap: 1.5rem;
+            }
+
+            .container {
+                padding: 0 2rem;
+            }
+
+            .card {
+                padding: 2rem;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
+
+            .cursor {
+                display: none;
+            }
         }
+
         @media (max-width: 600px) {
-            .nav-links { display: none; }
-            .hero { padding-bottom: 4rem; }
-            .hero-text h1 { font-size: 2.8rem; }
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding-bottom: 4rem;
+            }
+
+            .hero-text h1 {
+                font-size: 2.8rem;
+            }
         }
     </style>
 </head>
+
 <body>
+
+    <!-- THEME TRANSITION OVERLAY -->
+    <div class="theme-transition" id="themeTransition"></div>
 
     <!-- LOADER -->
     <div class="loader" id="loader">
@@ -575,7 +1034,11 @@
 
     <!-- NAV -->
     <nav>
-        <a href="#hero" class="nav-logo">EG</a>
+        <a href="#hero" class="nav-logo">
+            <span class="logo-short">EG</span>
+            <span class="logo-part1">Esteban</span>
+            <span class="logo-part2">García</span>
+        </a>
         <ul class="nav-links">
             <li><a href="#perfil">Perfil</a></li>
             <li><a href="#experiencia">Experiencia</a></li>
@@ -599,11 +1062,14 @@
                     </h1>
                     <p class="hero-sub">Técnico en Electrónica — Montevideo, Uruguay</p>
                     <div class="hero-contact">
-                        <a href="https://wa.me/59892016692" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                        <a href="https://wa.me/59892016692" target="_blank"><i class="fab fa-whatsapp link-icon"></i>
+                            WhatsApp</a>
                         <span class="dot"></span>
-                        <a href="mailto:esteban.garciavigo@icloud.com"><i class="fas fa-envelope"></i> Email</a>
+                        <a href="mailto:esteban.garciavigo@icloud.com"><i class="fas fa-envelope link-icon"></i>
+                            Email</a>
                         <span class="dot"></span>
-                        <a href="https://www.linkedin.com/in/esteban-garcia-vigo" target="_blank"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+                        <a href="https://www.linkedin.com/in/esteban-garcia-vigo" target="_blank"><i
+                                class="fab fa-linkedin-in link-icon"></i> LinkedIn</a>
                     </div>
                 </div>
                 <div class="hero-photo">
@@ -619,12 +1085,19 @@
             <div class="section-header reveal">
                 <span class="section-num">01</span>
                 <h2 class="section-title">Perfil <em>Profesional</em></h2>
+                <i class="fas fa-user section-icon"></i>
             </div>
             <div class="about-grid">
                 <div class="card reveal">
                     <div class="about-text">
-                        <p>Técnico en electrónica con sólida trayectoria en mantenimiento industrial, reparación de hardware especializado y gestión de sistemas de control. Con experiencia en reparación de placas hashboard de equipos de minería de criptomonedas (Antminer, Whatsminer, Canaan), utilizando microscopio electrónico, cama de calor y soldador para componentes SMD.</p>
-                        <p>Amplios conocimientos en electricidad, neumática, hidráulica, refrigeración y mecánica, así como en programación SCADA y herramientas informáticas. Analista GeneXus junior con introducción a Python. Responsable, detallista y con gran capacidad de adaptación a los desafíos técnicos.</p>
+                        <p>Técnico en electrónica con sólida trayectoria en mantenimiento industrial, reparación de
+                            hardware especializado y gestión de sistemas de control. Con experiencia en reparación de
+                            placas hashboard de equipos de minería de criptomonedas (Antminer, Whatsminer, Canaan),
+                            utilizando microscopio electrónico, cama de calor y soldador para componentes SMD.</p>
+                        <p>Amplios conocimientos en electricidad, neumática, hidráulica, refrigeración y mecánica, así
+                            como en programación SCADA y herramientas informáticas. Analista GeneXus junior con
+                            introducción a Python. Responsable, detallista y con gran capacidad de adaptación a los
+                            desafíos técnicos.</p>
                     </div>
                 </div>
                 <div class="about-stats reveal">
@@ -655,6 +1128,7 @@
             <div class="section-header reveal">
                 <span class="section-num">02</span>
                 <h2 class="section-title">Experiencia <em>Laboral</em></h2>
+                <i class="fas fa-stream section-icon"></i>
             </div>
             <div class="exp-list">
                 <div class="exp-item reveal">
@@ -663,9 +1137,12 @@
                         <h3>Técnico en Electrónica</h3>
                         <div class="exp-company">Microfin S.A. – Tether.io</div>
                         <ul>
-                            <li>Reparación de placas hashboard de minería de criptomonedas: Antminer, Whatsminer y Canaan</li>
-                            <li>Diagnóstico y corrección de fallas mediante microscopio electrónico, multímetro y cama de calor</li>
-                            <li>Soldadura y reballing de componentes SMD; reemplazo de chips ASIC y componentes de potencia</li>
+                            <li>Reparación de placas hashboard de minería de criptomonedas: Antminer, Whatsminer y
+                                Canaan</li>
+                            <li>Diagnóstico y corrección de fallas mediante microscopio electrónico, multímetro y cama
+                                de calor</li>
+                            <li>Soldadura y reballing de componentes SMD; reemplazo de chips ASIC y componentes de
+                                potencia</li>
                             <li>Análisis de circuitos y pruebas funcionales post-reparación</li>
                         </ul>
                     </div>
@@ -676,7 +1153,8 @@
                         <h3>Técnico en Reparación</h3>
                         <div class="exp-company">XION (Joacamar S.A.)</div>
                         <ul>
-                            <li>Reparación de electrodomésticos: planchas, freidoras sin aceite, secadores, aspiradoras robot, cafeteras, tostadoras</li>
+                            <li>Reparación de electrodomésticos: planchas, freidoras sin aceite, secadores, aspiradoras
+                                robot, cafeteras, tostadoras</li>
                             <li>Registro de reparaciones en software interno (SG) y atención al cliente</li>
                         </ul>
                     </div>
@@ -687,8 +1165,10 @@
                         <h3>Asistente de Mantenimiento</h3>
                         <div class="exp-company">Pharmin (Gilkenal S.A.)</div>
                         <ul>
-                            <li>Mantenimiento preventivo y correctivo de maquinaria, invernadero y laboratorio (GMP)</li>
-                            <li>Electrónica: reparación de plaquetas, soldadura SMD, tableros de control, sistema de acceso</li>
+                            <li>Mantenimiento preventivo y correctivo de maquinaria, invernadero y laboratorio (GMP)
+                            </li>
+                            <li>Electrónica: reparación de plaquetas, soldadura SMD, tableros de control, sistema de
+                                acceso</li>
                             <li>Electricidad: tableros, cableado, variadores de frecuencia</li>
                             <li>Informática: redes, cámaras IP, programación SCADA en AVEVA Edge, SQL</li>
                             <li>Hidráulica, mecánica y refrigeración HVAC; control de stock y compras</li>
@@ -701,7 +1181,8 @@
                         <h3>Gerente de Mantenimiento</h3>
                         <div class="exp-company">McDonald's Uruguay (Arcos Dorados)</div>
                         <ul>
-                            <li>Mantenimiento preventivo y correctivo en electrónica, electricidad, hidráulica, neumática, refrigeración y mecánica</li>
+                            <li>Mantenimiento preventivo y correctivo en electrónica, electricidad, hidráulica,
+                                neumática, refrigeración y mecánica</li>
                             <li>Gestión de presupuesto, órdenes de compra y coordinación de personal</li>
                             <li>Control de gastos y registro de maquinaria con herramientas Office y sistema SMP</li>
                         </ul>
@@ -717,6 +1198,7 @@
             <div class="section-header reveal">
                 <span class="section-num">03</span>
                 <h2 class="section-title">Formación <em>y Diplomas</em></h2>
+                <i class="fas fa-certificate section-icon"></i>
             </div>
             <div class="edu-grid">
                 <div class="edu-block reveal">
@@ -771,9 +1253,14 @@
     <!-- DESCARGA -->
     <section id="descargar" class="cta-section">
         <div class="container">
-            <p style="font-family: var(--mono); font-size: 0.7rem; color: var(--text-muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 2rem;" class="reveal">Versión actualizada — Junio 2026</p>
+            <p style="font-family: var(--mono); font-size: 0.7rem; color: var(--text-muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 2rem;"
+                class="reveal">Versión actualizada — Junio 2026</p>
             <a href="CV-Esteban-Garcia.pdf" download class="cta-title-link reveal-scale">
                 <h2>Descargar <em>CV</em></h2>
+                <span class="cta-icons">
+                    <i class="fas fa-file-pdf"></i>
+                    <i class="fas fa-arrow-down"></i>
+                </span>
             </a>
         </div>
     </section>
@@ -784,9 +1271,10 @@
             © 2026 Esteban García — Montevideo, Uruguay
         </div>
         <div class="footer-links">
-            <a href="https://wa.me/59892016692" target="_blank">WhatsApp</a>
-            <a href="mailto:esteban.garciavigo@icloud.com">Email</a>
-            <a href="https://www.linkedin.com/in/esteban-garcia-vigo" target="_blank">LinkedIn</a>
+            <a href="https://wa.me/59892016692" target="_blank"><i class="fab fa-whatsapp link-icon"></i>WhatsApp</a>
+            <a href="mailto:esteban.garciavigo@icloud.com"><i class="fas fa-envelope link-icon"></i>Email</a>
+            <a href="https://www.linkedin.com/in/esteban-garcia-vigo" target="_blank"><i
+                    class="fab fa-linkedin-in link-icon"></i>LinkedIn</a>
         </div>
     </footer>
 
@@ -1009,27 +1497,78 @@
         const savedTheme = localStorage.getItem('theme') || 'dark';
         document.documentElement.setAttribute('data-theme', savedTheme);
 
+        const themeTransition = document.getElementById('themeTransition');
+
         themeToggle.addEventListener('click', () => {
             const current = document.documentElement.getAttribute('data-theme');
             const next = current === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', next);
-            localStorage.setItem('theme', next);
+
+            themeTransition.className = 'theme-transition';
+            void themeTransition.offsetWidth;
+            themeTransition.classList.add(next === 'dark' ? 'to-dark' : 'to-light');
+
+            setTimeout(() => {
+                document.documentElement.setAttribute('data-theme', next);
+                localStorage.setItem('theme', next);
+            }, 300);
+
+            setTimeout(() => {
+                themeTransition.className = 'theme-transition';
+            }, 600);
         });
+
+        /* ─── LOGO TYPEWRITER ─── */
+        const logoText = document.querySelector('.logo-text');
+        const navLogo = document.querySelector('.nav-logo');
+        const fullText = 'Esteban García';
+        const shortText = 'EG';
+        let typewriterTimeout = null;
+
+        if (navLogo && logoText) {
+            navLogo.addEventListener('mouseenter', () => {
+                clearTimeout(typewriterTimeout);
+                let i = 2;
+                logoText.textContent = shortText;
+                const type = () => {
+                    if (i <= fullText.length) {
+                        logoText.textContent = fullText.substring(0, i);
+                        i++;
+                        typewriterTimeout = setTimeout(type, 50);
+                    }
+                };
+                type();
+            });
+
+            navLogo.addEventListener('mouseleave', () => {
+                clearTimeout(typewriterTimeout);
+                let i = fullText.length;
+                const untype = () => {
+                    if (i >= 2) {
+                        logoText.textContent = fullText.substring(0, i);
+                        i--;
+                        typewriterTimeout = setTimeout(untype, 30);
+                    } else {
+                        logoText.textContent = shortText;
+                    }
+                };
+                untype();
+            });
+        }
 
         /* ─── TITLE PARALLAX ON HOVER ─── */
         document.querySelectorAll('.section-header').forEach(header => {
             const title = header.querySelector('.section-title');
             const num = header.querySelector('.section-num');
-            
+
             header.addEventListener('mousemove', (e) => {
                 const rect = header.getBoundingClientRect();
                 const x = (e.clientX - rect.left) / rect.width - 0.5;
                 const y = (e.clientY - rect.top) / rect.height - 0.5;
-                
+
                 title.style.transform = `rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateZ(10px)`;
                 if (num) num.style.transform = `translateX(${x * 5}px) translateY(${y * 3}px)`;
             });
-            
+
             header.addEventListener('mouseleave', () => {
                 title.style.transform = 'rotateY(0deg) rotateX(0deg) translateZ(0px)';
                 if (num) num.style.transform = 'translateX(0px) translateY(0px)';
@@ -1066,4 +1605,5 @@
         }
     </script>
 </body>
+
 </html>
