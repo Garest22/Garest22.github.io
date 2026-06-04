@@ -74,6 +74,10 @@
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
         /* ─── LOADER ─── */
@@ -1279,6 +1283,55 @@
     </footer>
 
     <script>
+        /* ─── SECURITY MEASURES ─── */
+        (function() {
+            'use strict';
+
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                return false;
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'F12' || 
+                    (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i')) ||
+                    (e.ctrlKey && e.shiftKey && (e.key === 'J' || e.key === 'j')) ||
+                    (e.ctrlKey && (e.key === 'U' || e.key === 'u'))) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+
+            document.addEventListener('selectstart', function(e) {
+                if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+
+            document.addEventListener('dragstart', function(e) {
+                e.preventDefault();
+                return false;
+            });
+
+            setInterval(function() {
+                var widthThreshold = window.outerWidth - window.innerWidth > 160;
+                var heightThreshold = window.outerHeight - window.innerHeight > 160;
+                if (widthThreshold || heightThreshold) {
+                    document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:serif;background:#0a0a0a;color:#f0ede6;"><h1 style="text-align:center;">Acceso no autorizado detectado</h1></div>';
+                    window.location.href = 'about:blank';
+                }
+            }, 1000);
+
+            var element = new Image();
+            Object.defineProperty(element, 'id', {
+                get: function() {
+                    throw new Error('DevTools blocked');
+                }
+            });
+            console.log(element);
+        })();
+
         gsap.registerPlugin(ScrollTrigger);
 
         /* ─── LOADER ANIMATION ─── */
