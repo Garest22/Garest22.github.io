@@ -525,18 +525,9 @@
             color: var(--accent);
         }
 
+        /* ─── SECTION ICON (hidden, kept for structure) ─── */
         .section-icon {
-            margin-left: auto;
-            font-size: 1.5rem;
-            color: var(--accent);
-            opacity: 0;
-            transform: translateX(-20px);
-            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .section-header:hover .section-icon {
-            opacity: 1;
-            transform: translateX(0);
+            display: none;
         }
 
         /* ─── CARD ─── */
@@ -1740,8 +1731,8 @@
                 const x = (e.clientX - rect.left) / rect.width - 0.5;
                 const y = (e.clientY - rect.top) / rect.height - 0.5;
 
-                title.style.transform = `rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateZ(10px)`;
-                if (num) num.style.transform = `translateX(${x * 5}px) translateY(${y * 3}px)`;
+                title.style.transform = `rotateY(${x * 15}deg) rotateX(${-y * 15}deg) translateZ(20px)`;
+                if (num) num.style.transform = `translateX(${x * 8}px) translateY(${y * 5}px)`;
             });
 
             header.addEventListener('mouseleave', () => {
