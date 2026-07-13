@@ -171,8 +171,15 @@
         }
 
         @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
         }
 
         .boot-progress {
@@ -955,6 +962,208 @@
             margin-bottom: 1.2rem;
         }
 
+        /* ─── REFERENCIA LABORAL (clickable) ─── */
+        .exp-company-ref {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: none;
+            border: none;
+            padding: 0;
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            color: var(--accent);
+            letter-spacing: 0.05em;
+            margin-bottom: 1.2rem;
+            cursor: pointer;
+            text-align: left;
+            position: relative;
+        }
+
+        .exp-company-ref .ref-icon {
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 1px solid var(--accent);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+        }
+
+        .exp-company-ref:hover .ref-icon {
+            background: var(--accent);
+            color: var(--bg);
+            transform: scale(1.1);
+        }
+
+        .exp-company-ref .ref-hint {
+            font-size: 0.62rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0;
+            transform: translateX(-4px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .exp-company-ref:hover .ref-hint {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* ─── MODAL: REFERENCIA LABORAL ─── */
+        .ref-modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10001;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.35s ease, visibility 0.35s ease;
+            padding: 1.5rem;
+        }
+
+        .ref-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .ref-modal {
+            width: 100%;
+            max-width: 400px;
+            background: var(--bg-alt);
+            border: 1px solid var(--border-hover);
+            border-radius: 4px;
+            padding: 2.75rem 2.25rem 2.25rem;
+            position: relative;
+            transform: translateY(24px) scale(0.97);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
+        }
+
+        .ref-modal-overlay.active .ref-modal {
+            transform: translateY(0) scale(1);
+        }
+
+        .ref-modal-close {
+            position: absolute;
+            top: 1.1rem;
+            right: 1.1rem;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: none;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .ref-modal-close:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: rotate(90deg);
+        }
+
+        .ref-modal-badge {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            color: var(--accent);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .ref-modal-badge i {
+            font-size: 0.7rem;
+        }
+
+        .ref-modal-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: 1px solid var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--serif);
+            font-size: 1.3rem;
+            color: var(--accent);
+            margin-bottom: 1.25rem;
+        }
+
+        .ref-modal-name {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.35rem;
+        }
+
+        .ref-modal-role {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 0.04em;
+            margin-bottom: 0.2rem;
+        }
+
+        .ref-modal-company {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            color: var(--accent2);
+            letter-spacing: 0.04em;
+            margin-bottom: 1.75rem;
+        }
+
+        .ref-modal-lock {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.85rem;
+            padding: 1.1rem 1.2rem;
+            border: 1px dashed var(--border-hover);
+            border-radius: 3px;
+            background: rgba(201, 169, 110, 0.04);
+            margin-bottom: 1.5rem;
+        }
+
+        .ref-modal-lock i {
+            color: var(--accent);
+            font-size: 0.95rem;
+            margin-top: 0.15rem;
+        }
+
+        .ref-modal-lock p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .ref-modal-lock strong {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .ref-modal-cta {
+            width: 100%;
+            justify-content: center;
+            padding: 0.9rem 1.5rem;
+        }
+
         .exp-content ul {
             list-style: none;
             padding: 0;
@@ -1261,6 +1470,47 @@
             transform: translateY(3px);
         }
 
+        /* ─── QUICK FACTS BAR ─── */
+        .quick-facts {
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-alt);
+            padding: 1.1rem 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .quick-facts-inner {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem 2.2rem;
+        }
+
+        .qf-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            letter-spacing: 0.03em;
+            white-space: nowrap;
+        }
+
+        .qf-item i {
+            color: var(--accent);
+            font-size: 0.8rem;
+            width: 14px;
+            text-align: center;
+        }
+
+        .qf-item strong {
+            color: var(--text);
+            font-weight: 500;
+        }
+
         /* ─── FOOTER ─── */
         footer {
             border-top: 1px solid var(--border);
@@ -1394,6 +1644,7 @@
 
         /* ─── REDUCED MOTION ─── */
         @media (prefers-reduced-motion: reduce) {
+
             *,
             *::before,
             *::after {
@@ -1623,10 +1874,14 @@
         <div class="floating-comp" data-speed="0.03" data-x="8" data-y="15">
             <svg width="60" height="40" viewBox="0 0 60 40">
                 <rect x="10" y="5" width="40" height="30" rx="2" />
-                <line x1="15" y1="5" x2="15" y2="0" /><line x1="25" y1="5" x2="25" y2="0" />
-                <line x1="35" y1="5" x2="35" y2="0" /><line x1="45" y1="5" x2="45" y2="0" />
-                <line x1="15" y1="35" x2="15" y2="40" /><line x1="25" y1="35" x2="25" y2="40" />
-                <line x1="35" y1="35" x2="35" y2="40" /><line x1="45" y1="35" x2="45" y2="40" />
+                <line x1="15" y1="5" x2="15" y2="0" />
+                <line x1="25" y1="5" x2="25" y2="0" />
+                <line x1="35" y1="5" x2="35" y2="0" />
+                <line x1="45" y1="5" x2="45" y2="0" />
+                <line x1="15" y1="35" x2="15" y2="40" />
+                <line x1="25" y1="35" x2="25" y2="40" />
+                <line x1="35" y1="35" x2="35" y2="40" />
+                <line x1="45" y1="35" x2="45" y2="40" />
                 <circle cx="17" cy="12" r="2" fill="currentColor" stroke="none" />
             </svg>
         </div>
@@ -1710,10 +1965,13 @@
         <line class="pcb-trace" x1="400" y1="120" x2="400" y2="300" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
         <line class="pcb-trace" x1="700" y1="300" x2="700" y2="500" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
         <!-- Component pads -->
-        <rect x="170" y="245" width="60" height="30" rx="2" fill="none" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
-        <rect x="570" y="345" width="60" height="30" rx="2" fill="none" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <rect x="170" y="245" width="60" height="30" rx="2" fill="none" stroke="rgba(201,169,110,0.06)"
+            stroke-width="1" />
+        <rect x="570" y="345" width="60" height="30" rx="2" fill="none" stroke="rgba(201,169,110,0.06)"
+            stroke-width="1" />
         <!-- IC chip -->
-        <rect x="440" y="420" width="80" height="40" rx="2" fill="none" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <rect x="440" y="420" width="80" height="40" rx="2" fill="none" stroke="rgba(201,169,110,0.06)"
+            stroke-width="1" />
         <line x1="450" y1="420" x2="450" y2="410" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
         <line x1="470" y1="420" x2="470" y2="410" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
         <line x1="490" y1="420" x2="490" y2="410" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
@@ -1729,7 +1987,8 @@
         <line x1="295" y1="532" x2="305" y2="532" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
         <!-- Resistor symbol -->
         <line x1="50" y1="450" x2="80" y2="450" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
-        <polyline points="80,450 85,442 95,458 105,442 115,458 125,442 130,450" fill="none" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <polyline points="80,450 85,442 95,458 105,442 115,458 125,442 130,450" fill="none"
+            stroke="rgba(201,169,110,0.06)" stroke-width="1" />
         <line x1="130" y1="450" x2="160" y2="450" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
         <!-- Capacitor symbol -->
         <line x1="650" y1="150" x2="680" y2="150" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
@@ -1738,31 +1997,41 @@
         <line x1="690" y1="150" x2="720" y2="150" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
         <!-- Repeated pattern offsets for full-page coverage -->
         <g transform="translate(800, 0)">
-            <line class="pcb-trace" x1="0" y1="200" x2="300" y2="200" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+            <line class="pcb-trace" x1="0" y1="200" x2="300" y2="200" stroke="rgba(201,169,110,0.06)"
+                stroke-width="1" />
             <circle cx="150" cy="200" r="4" fill="none" stroke="rgba(201,169,110,0.08)" stroke-width="1" />
-            <line class="pcb-trace" x1="150" y1="200" x2="150" y2="450" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
-            <rect x="100" y="400" width="100" height="50" rx="3" fill="none" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+            <line class="pcb-trace" x1="150" y1="200" x2="150" y2="450" stroke="rgba(201,169,110,0.06)"
+                stroke-width="1" />
+            <rect x="100" y="400" width="100" height="50" rx="3" fill="none" stroke="rgba(201,169,110,0.06)"
+                stroke-width="1" />
         </g>
         <g transform="translate(0, 600)">
-            <line class="pcb-trace" x1="50" y1="100" x2="400" y2="100" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+            <line class="pcb-trace" x1="50" y1="100" x2="400" y2="100" stroke="rgba(201,169,110,0.06)"
+                stroke-width="1" />
             <circle cx="225" cy="100" r="4" fill="none" stroke="rgba(201,169,110,0.08)" stroke-width="1" />
-            <line class="pcb-trace" x1="225" y1="100" x2="225" y2="300" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
-            <rect x="195" y="250" width="60" height="40" rx="2" fill="none" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+            <line class="pcb-trace" x1="225" y1="100" x2="225" y2="300" stroke="rgba(201,169,110,0.06)"
+                stroke-width="1" />
+            <rect x="195" y="250" width="60" height="40" rx="2" fill="none" stroke="rgba(201,169,110,0.06)"
+                stroke-width="1" />
         </g>
         <g transform="translate(600, 700)">
             <line class="pcb-trace" x1="0" y1="50" x2="250" y2="50" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
-            <line class="pcb-trace" x1="125" y1="50" x2="125" y2="250" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+            <line class="pcb-trace" x1="125" y1="50" x2="125" y2="250" stroke="rgba(201,169,110,0.06)"
+                stroke-width="1" />
             <circle cx="125" cy="50" r="4" fill="none" stroke="rgba(201,169,110,0.08)" stroke-width="1" />
         </g>
         <g transform="translate(200, 1100)">
             <line class="pcb-trace" x1="0" y1="0" x2="350" y2="0" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
-            <line class="pcb-trace" x1="350" y1="0" x2="350" y2="200" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+            <line class="pcb-trace" x1="350" y1="0" x2="350" y2="200" stroke="rgba(201,169,110,0.06)"
+                stroke-width="1" />
             <circle cx="350" cy="0" r="4" fill="none" stroke="rgba(201,169,110,0.08)" stroke-width="1" />
-            <rect x="300" y="150" width="100" height="50" rx="2" fill="none" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+            <rect x="300" y="150" width="100" height="50" rx="2" fill="none" stroke="rgba(201,169,110,0.06)"
+                stroke-width="1" />
         </g>
         <g transform="translate(900, 1000)">
             <line class="pcb-trace" x1="0" y1="80" x2="200" y2="80" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
-            <line class="pcb-trace" x1="100" y1="80" x2="100" y2="280" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+            <line class="pcb-trace" x1="100" y1="80" x2="100" y2="280" stroke="rgba(201,169,110,0.06)"
+                stroke-width="1" />
             <circle cx="100" cy="80" r="4" fill="none" stroke="rgba(201,169,110,0.08)" stroke-width="1" />
         </g>
     </svg>
@@ -1777,13 +2046,20 @@
     <div class="loader" id="loader">
         <div class="boot-screen">
             <div class="boot-line" data-delay="0"><span class="boot-prompt">></span> initializing system...</div>
-            <div class="boot-line" data-delay="400"><span class="boot-prompt">></span> loading profile <span class="boot-ok">[OK]</span></div>
-            <div class="boot-line" data-delay="800"><span class="boot-prompt">></span> mounting experience <span class="boot-ok">[OK]</span></div>
-            <div class="boot-line" data-delay="1200"><span class="boot-prompt">></span> loading skills <span class="boot-ok">[OK]</span></div>
-            <div class="boot-line" data-delay="1600"><span class="boot-prompt">></span> calibrating sensors <span class="boot-ok">[OK]</span></div>
-            <div class="boot-line" data-delay="2000"><span class="boot-prompt">></span> system ready<span class="boot-cursor">_</span></div>
+            <div class="boot-line" data-delay="400"><span class="boot-prompt">></span> loading profile <span
+                    class="boot-ok">[OK]</span></div>
+            <div class="boot-line" data-delay="800"><span class="boot-prompt">></span> mounting experience <span
+                    class="boot-ok">[OK]</span></div>
+            <div class="boot-line" data-delay="1200"><span class="boot-prompt">></span> loading skills <span
+                    class="boot-ok">[OK]</span></div>
+            <div class="boot-line" data-delay="1600"><span class="boot-prompt">></span> calibrating sensors <span
+                    class="boot-ok">[OK]</span></div>
+            <div class="boot-line" data-delay="2000"><span class="boot-prompt">></span> system ready<span
+                    class="boot-cursor">_</span></div>
         </div>
-        <div class="boot-progress"><div class="boot-progress-bar" id="bootProgressBar"></div></div>
+        <div class="boot-progress">
+            <div class="boot-progress-bar" id="bootProgressBar"></div>
+        </div>
     </div>
 
     <!-- ELECTROMAGNETIC CURSOR -->
@@ -1853,6 +2129,15 @@
         </div>
     </section>
 
+    <!-- QUICK FACTS BAR -->
+    <div class="quick-facts reveal">
+        <div class="container quick-facts-inner">
+            <span class="qf-item"><i class="fas fa-id-card"></i>Licencia: <strong>Cat. A</strong></span>
+            <span class="qf-item"><i class="fas fa-clock"></i>Disponibilidad: <strong>Full time</strong></span>
+            <span class="qf-item"><i class="fas fa-briefcase"></i>Modalidad: <strong>Presencial/Remoto</strong></span>
+        </div>
+    </div>
+
     <!-- PERFIL -->
     <section id="perfil" class="bg-alt" style="padding:8rem 0;">
         <div class="container">
@@ -1898,7 +2183,8 @@
 
     <!-- WAVE DIVIDER: Sine -->
     <svg class="wave-divider" viewBox="0 0 1200 60" preserveAspectRatio="none">
-        <path class="wave-glow" d="M0,30 C100,10 200,50 300,30 C400,10 500,50 600,30 C700,10 800,50 900,30 C1000,10 1100,50 1200,30" />
+        <path class="wave-glow"
+            d="M0,30 C100,10 200,50 300,30 C400,10 500,50 600,30 C700,10 800,50 900,30 C1000,10 1100,50 1200,30" />
         <path d="M0,30 C100,10 200,50 300,30 C400,10 500,50 600,30 C700,10 800,50 900,30 C1000,10 1100,50 1200,30" />
     </svg>
 
@@ -1918,7 +2204,12 @@
                     <div class="exp-date">ABR. 2025 — JUN. 2026</div>
                     <div class="exp-content">
                         <h3>Técnico en Electrónica</h3>
-                        <div class="exp-company">Microfin S.A. – Tether.io</div>
+                        <button type="button" class="exp-company-ref" data-ref-name="Leonardo Selva"
+                            data-ref-role="Manager de Electrónica" data-ref-company="Microfin S.A. – Tether.io">
+                            <span class="ref-icon"><i class="fas fa-user"></i></span>
+                            <span>Microfin S.A. – Tether.io</span>
+                            <span class="ref-hint">Ver referencia</span>
+                        </button>
                         <ul>
                             <li>Reparación de placas hashboard de minería de criptomonedas: Antminer, Whatsminer y
                                 Canaan</li>
@@ -1985,7 +2276,13 @@
                     <div class="exp-date">SET. 2012 — ABR. 2023</div>
                     <div class="exp-content">
                         <h3>Gerente de Mantenimiento</h3>
-                        <div class="exp-company">McDonald's Uruguay (Arcos Dorados)</div>
+                        <button type="button" class="exp-company-ref" data-ref-name="Cristian Rodas"
+                            data-ref-role="Supervisor de Mantenimiento"
+                            data-ref-company="McDonald's Uruguay (Arcos Dorados)">
+                            <span class="ref-icon"><i class="fas fa-user"></i></span>
+                            <span>McDonald's Uruguay (Arcos Dorados)</span>
+                            <span class="ref-hint">Ver referencia</span>
+                        </button>
                         <ul>
                             <li>Mantenimiento preventivo y correctivo en electrónica, electricidad, hidráulica,
                                 neumática, refrigeración y mecánica</li>
@@ -2002,18 +2299,16 @@
                     </div>
                 </div>
                 <div class="exp-track-end">
-                    <i class="fas fa-flag-checkered"></i>
-                    <span>13+ años<br>de trayectoria</span>
                 </div>
             </div>
-            <div class="exp-scroll-hint"><span>Seguí scrolleando</span><i class="fas fa-arrow-right"></i></div>
-        </div>
     </section>
 
     <!-- WAVE DIVIDER: Square -->
     <svg class="wave-divider" viewBox="0 0 1200 60" preserveAspectRatio="none">
-        <path class="wave-glow" d="M0,30 L100,30 L100,10 L300,10 L300,30 L500,30 L500,50 L700,50 L700,30 L900,30 L900,10 L1100,10 L1100,30 L1200,30" />
-        <path d="M0,30 L100,30 L100,10 L300,10 L300,30 L500,30 L500,50 L700,50 L700,30 L900,30 L900,10 L1100,10 L1100,30 L1200,30" />
+        <path class="wave-glow"
+            d="M0,30 L100,30 L100,10 L300,10 L300,30 L500,30 L500,50 L700,50 L700,30 L900,30 L900,10 L1100,10 L1100,30 L1200,30" />
+        <path
+            d="M0,30 L100,30 L100,10 L300,10 L300,30 L500,30 L500,50 L700,50 L700,30 L900,30 L900,10 L1100,10 L1100,30 L1200,30" />
     </svg>
 
     <!-- FORMACIÓN -->
@@ -2107,6 +2402,29 @@
                     class="fab fa-linkedin-in link-icon"></i>LinkedIn</a>
         </div>
     </footer>
+
+    <!-- MODAL: REFERENCIA LABORAL -->
+    <div class="ref-modal-overlay" id="refModalOverlay">
+        <div class="ref-modal" role="dialog" aria-modal="true" aria-labelledby="refModalName">
+            <button type="button" class="ref-modal-close" id="refModalClose" aria-label="Cerrar">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="ref-modal-badge"><i class="fas fa-shield-halved"></i><span>Referencia Laboral</span></div>
+            <div class="ref-modal-avatar" id="refModalAvatar">L</div>
+            <div class="ref-modal-name" id="refModalName">Nombre</div>
+            <div class="ref-modal-role" id="refModalRole">Cargo</div>
+            <div class="ref-modal-company" id="refModalCompany">Empresa</div>
+            <div class="ref-modal-lock">
+                <i class="fas fa-lock"></i>
+                <p><strong>Datos de contacto protegidos.</strong> Para ver el teléfono de esta referencia, descargá
+                    el CV completo en PDF.</p>
+            </div>
+            <a href="CV-Esteban-Garcia.pdf" download class="btn-download ref-modal-cta">
+                <span>Descargar CV</span>
+                <i class="fas fa-file-pdf"></i>
+            </a>
+        </div>
+    </div>
 
     <script>
         /* ─── SECURITY MEASURES ─── */
@@ -2936,6 +3254,61 @@
 
             analytics.init();
             window.cvAnalytics = analytics;
+        })();
+
+        /* ─── MODAL: REFERENCIA LABORAL ─── */
+        (function () {
+            const overlay = document.getElementById('refModalOverlay');
+            const closeBtn = document.getElementById('refModalClose');
+            const avatarEl = document.getElementById('refModalAvatar');
+            const nameEl = document.getElementById('refModalName');
+            const roleEl = document.getElementById('refModalRole');
+            const companyEl = document.getElementById('refModalCompany');
+            let lastFocused = null;
+
+            function openRefModal(btn) {
+                const name = btn.dataset.refName || '';
+                const role = btn.dataset.refRole || '';
+                const company = btn.dataset.refCompany || '';
+
+                avatarEl.textContent = name.trim().charAt(0).toUpperCase() || '?';
+                nameEl.textContent = name;
+                roleEl.textContent = role;
+                companyEl.textContent = company;
+
+                lastFocused = document.activeElement;
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                closeBtn.focus();
+
+                if (window.cvAnalytics) {
+                    var refViews = JSON.parse(localStorage.getItem('cv_reference_views') || '[]');
+                    refViews.push({ name: name, company: company, time: new Date().toISOString() });
+                    localStorage.setItem('cv_reference_views', JSON.stringify(refViews));
+                }
+            }
+
+            function closeRefModal() {
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+                if (lastFocused) lastFocused.focus();
+            }
+
+            document.querySelectorAll('.exp-company-ref').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    openRefModal(btn);
+                });
+            });
+
+            closeBtn.addEventListener('click', closeRefModal);
+
+            overlay.addEventListener('click', function (e) {
+                if (e.target === overlay) closeRefModal();
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && overlay.classList.contains('active')) closeRefModal();
+            });
         })();
     </script>
 </body>
