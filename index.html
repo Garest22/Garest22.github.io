@@ -5,37 +5,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Esteban García | Técnico en Electrónica</title>
-    <meta name="description" content="CV de Esteban García - Técnico en Electrónica en Montevideo, Uruguay. Especialista en mantenimiento industrial, reparación de hardware y sistemas de control.">
-    <meta name="keywords" content="técnico electrónica, mantenimiento industrial, reparación hardware, Montevideo, Uruguay, CV, resume">
+    <meta name="description"
+        content="CV de Esteban García - Técnico en Electrónica en Montevideo, Uruguay. Especialista en mantenimiento industrial, reparación de hardware y sistemas de control.">
+    <meta name="keywords"
+        content="técnico electrónica, mantenimiento industrial, reparación hardware, Montevideo, Uruguay, CV, resume">
     <meta name="author" content="Esteban García">
     <meta name="robots" content="index, follow">
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="profile">
     <meta property="og:title" content="Esteban García | Técnico en Electrónica">
-    <meta property="og:description" content="CV de Esteban García - Técnico en Electrónica en Montevideo, Uruguay. Especialista en mantenimiento industrial, reparación de hardware y sistemas de control.">
+    <meta property="og:description"
+        content="CV de Esteban García - Técnico en Electrónica en Montevideo, Uruguay. Especialista en mantenimiento industrial, reparación de hardware y sistemas de control.">
     <meta property="og:image" content="foto_perfil.jpg">
     <meta property="og:url" content="https://garest22.github.io/">
     <meta property="og:site_name" content="Esteban García CV">
     <meta property="og:locale" content="es_UY">
-    
+
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Esteban García | Técnico en Electrónica">
     <meta name="twitter:description" content="CV de Esteban García - Técnico en Electrónica en Montevideo, Uruguay.">
     <meta name="twitter:image" content="foto_perfil.jpg">
-    
+
     <!-- Additional -->
     <meta name="theme-color" content="#0a0a0a">
     <meta name="msapplication-TileColor" content="#0a0a0a">
     <link rel="canonical" href="https://garest22.github.io/">
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <style>
         :root {
             --bg: #0a0a0a;
@@ -56,7 +61,7 @@
             --bg: #f5f3ee;
             --bg-alt: #ebe8e1;
             --text: #1a1a1a;
-            --text-muted: #4a4a4a;
+            --text-muted: #5a5a5a;
             --accent: #9a7b4f;
             --accent2: #6b5a3e;
             --border: rgba(26, 26, 26, 0.1);
@@ -97,13 +102,27 @@
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            -webkit-user-select: text;
-            -moz-user-select: text;
-            -ms-user-select: text;
-            user-select: text;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
-        /* ─── LOADER ─── */
+        /* ─── SCROLL GLOW (ambient light that follows scroll) ─── */
+        .scroll-glow {
+            position: fixed;
+            top: -400px;
+            left: 50%;
+            width: 900px;
+            height: 900px;
+            background: radial-gradient(circle, rgba(201, 169, 110, 0.10), transparent 70%);
+            transform: translate(-50%, 0);
+            pointer-events: none;
+            z-index: 0;
+            will-change: transform;
+        }
+
+        /* ─── LOADER (BOOT SEQUENCE) ─── */
         .loader {
             position: fixed;
             inset: 0;
@@ -113,49 +132,61 @@
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 2rem;
         }
 
-        .loader-name {
-            font-family: var(--serif);
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 700;
-            color: var(--text);
+        .boot-screen {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            line-height: 2;
+            min-width: 340px;
+        }
+
+        .boot-line {
+            opacity: 0;
+            transform: translateY(5px);
+            white-space: nowrap;
+        }
+
+        .boot-line.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .boot-prompt {
+            color: var(--accent);
+            margin-right: 0.5em;
+        }
+
+        .boot-ok {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .boot-cursor {
+            color: var(--accent);
+            animation: blink 0.8s step-end infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .boot-progress {
+            width: 200px;
+            height: 1px;
+            background: var(--border);
             overflow: hidden;
         }
 
-        .loader-name span {
-            display: inline-block;
-            transform: translateY(110%);
-        }
-
-        .loader-line {
-            width: 0;
-            height: 1px;
+        .boot-progress-bar {
+            width: 0%;
+            height: 100%;
             background: var(--accent);
-        }
-
-        .loader-role {
-            font-family: var(--mono);
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            opacity: 0;
-        }
-
-        /* ─── CURSOR ─── */
-        .cursor {
-            width: 16px;
-            height: 16px;
-            border: 1.5px solid var(--text);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9998;
-            transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, background 0.3s ease;
-            transform: translate(-50%, -50%);
-            mix-blend-mode: difference;
+            transition: width 0.3s ease;
         }
 
         /* ─── PROGRESS BAR ─── */
@@ -365,11 +396,53 @@
             transform: rotate(90deg) scale(0.5);
         }
 
+        /* ─── PRINT BUTTON ─── */
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .print-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 1rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .print-btn:hover {
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 600px) {
+            .print-btn {
+                display: none;
+            }
+        }
+
         /* ─── LAYOUT ─── */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 3rem;
+        }
+
+        section {
+            position: relative;
+            z-index: 1;
+        }
+
+        .wave-divider {
+            position: relative;
+            z-index: 1;
         }
 
         /* ─── HERO ─── */
@@ -379,6 +452,7 @@
             align-items: center;
             padding: 0;
             position: relative;
+            z-index: 1;
         }
 
         .hero-inner {
@@ -493,6 +567,224 @@
             margin-right: 0.4em;
         }
 
+        /* ─── SKILL TAGS ─── */
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 1.2rem;
+        }
+
+        .skill-tag {
+            font-family: var(--mono);
+            font-size: 0.58rem;
+            color: var(--accent);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 0.25rem 0.6rem;
+            border: 1px solid rgba(201, 169, 110, 0.15);
+            border-radius: 3px;
+            background: rgba(201, 169, 110, 0.04);
+            transition: border-color 0.3s ease, background 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            border-color: rgba(201, 169, 110, 0.35);
+            background: rgba(201, 169, 110, 0.08);
+        }
+
+        /* ─── PCB CIRCUIT BOARD BACKGROUND ─── */
+        .pcb-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.06;
+        }
+
+        .pcb-trace {
+            transition: stroke 0.8s ease, filter 0.8s ease;
+        }
+
+        .pcb-trace.energized {
+            stroke: rgba(201, 169, 110, 0.2) !important;
+            filter: drop-shadow(0 0 3px rgba(201, 169, 110, 0.15));
+        }
+
+        /* ─── OSCILLOSCOPE WAVE DIVIDERS ─── */
+        .wave-divider {
+            width: 100%;
+            height: 60px;
+            overflow: visible;
+            display: block;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        .wave-divider.visible {
+            opacity: 1;
+        }
+
+        .wave-divider path {
+            fill: none;
+            stroke: var(--accent);
+            stroke-width: 1;
+            opacity: 0.25;
+            stroke-linecap: round;
+        }
+
+        .wave-divider .wave-glow {
+            fill: none;
+            stroke: var(--accent);
+            stroke-width: 3;
+            opacity: 0.06;
+            filter: blur(3px);
+            stroke-linecap: round;
+        }
+
+        /* ─── FLOATING COMPONENTS ─── */
+        .floating-components {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .floating-comp {
+            position: absolute;
+            opacity: 0.035;
+            transition: transform 0.1s linear;
+        }
+
+        .floating-comp svg {
+            fill: none;
+            stroke: var(--accent);
+            stroke-width: 1;
+        }
+
+        /* ─── ELECTROMAGNETIC CURSOR ─── */
+        .cursor-em {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease, height 0.3s ease, background 0.3s ease;
+            box-shadow: 0 0 12px rgba(201, 169, 110, 0.4), 0 0 30px rgba(201, 169, 110, 0.15);
+        }
+
+        .cursor-em::after {
+            content: '';
+            position: absolute;
+            inset: -12px;
+            border-radius: 50%;
+            border: 1px solid rgba(201, 169, 110, 0.12);
+            transition: inset 0.3s ease, border-color 0.3s ease;
+        }
+
+        .cursor-em.hovering {
+            width: 40px;
+            height: 40px;
+            background: rgba(201, 169, 110, 0.08);
+            box-shadow: 0 0 20px rgba(201, 169, 110, 0.3), 0 0 50px rgba(201, 169, 110, 0.1);
+        }
+
+        .cursor-em.hovering::after {
+            inset: -20px;
+            border-color: rgba(201, 169, 110, 0.2);
+        }
+
+        /* ─── SIDE-RAIL NAVIGATION ─── */
+        .side-rail {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 1.8rem;
+            pointer-events: none;
+            background: transparent !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            border: none !important;
+            padding: 0 !important;
+        }
+
+        .side-rail-dot {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            text-decoration: none;
+            position: relative;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+
+        .side-rail-dot span {
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            opacity: 0;
+            transform: translateX(8px);
+            transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        .side-rail-dot:hover span {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .side-rail-dot::after {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--text-muted);
+            transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .side-rail-dot:hover::after {
+            background: var(--text);
+            transform: scale(1.3);
+        }
+
+        .side-rail-dot.active::after {
+            background: var(--accent);
+            transform: scale(1.5);
+            box-shadow: 0 0 8px rgba(201, 169, 110, 0.5);
+        }
+
+        .side-rail-dot.active span {
+            color: var(--accent);
+        }
+
+        /* ─── SPLIT TEXT CHARACTERS ─── */
+        .split-char {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px) rotateX(-40deg);
+            transform-origin: bottom center;
+        }
+
+        .split-char.space {
+            width: 0.3em;
+        }
+
         /* ─── SECTION TITLES ─── */
         .section-header {
             display: flex;
@@ -525,9 +817,18 @@
             color: var(--accent);
         }
 
-        /* ─── SECTION ICON (hidden, kept for structure) ─── */
         .section-icon {
-            display: none;
+            margin-left: auto;
+            font-size: 1.5rem;
+            color: var(--accent);
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .section-header:hover .section-icon {
+            opacity: 1;
+            transform: translateX(0);
         }
 
         /* ─── CARD ─── */
@@ -591,22 +892,45 @@
             margin-top: 0.5rem;
         }
 
-        /* ─── EXPERIENCE ─── */
-        .exp-item {
-            display: grid;
-            grid-template-columns: 200px 1fr;
-            gap: 3rem;
-            padding: 3rem 0;
-            border-bottom: 1px solid var(--border);
-            transition: background 0.4s ease;
+        /* ─── EXPERIENCE (mobile-first: stacked list) ─── */
+        .exp-pin-wrap {
+            position: relative;
         }
 
-        .exp-item:first-child {
+        .exp-track {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .exp-card {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.6rem;
+            padding: 2.5rem 0;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.4s ease;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .exp-card:first-child {
             border-top: 1px solid var(--border);
         }
 
-        .exp-item:hover {
+        .exp-card:hover {
             background: rgba(201, 169, 110, 0.03);
+        }
+
+        .exp-card-index {
+            display: none;
+        }
+
+        .exp-track-end {
+            display: none;
+        }
+
+        .exp-scroll-hint {
+            display: none;
         }
 
         .exp-date {
@@ -614,7 +938,6 @@
             font-size: 0.75rem;
             color: var(--text-muted);
             letter-spacing: 0.08em;
-            padding-top: 0.3rem;
         }
 
         .exp-content h3 {
@@ -653,6 +976,116 @@
             width: 5px;
             height: 1px;
             background: var(--accent);
+        }
+
+        /* ─── EXPERIENCE: DESKTOP PINNED HORIZONTAL SCROLL ─── */
+        @media screen and (min-width: 901px) {
+            .exp-pin-wrap {
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                overflow: hidden;
+                margin-left: calc(50% - 50vw);
+                margin-right: calc(50% - 50vw);
+                padding-left: max(3rem, calc((100vw - 1200px) / 2 + 3rem));
+            }
+
+            .exp-track {
+                flex-direction: row;
+                align-items: stretch;
+                gap: 2.5rem;
+                width: max-content;
+                padding-right: 4rem;
+            }
+
+            .exp-card {
+                display: flex;
+                flex-direction: column;
+                width: min(440px, 60vw);
+                flex-shrink: 0;
+                border: 1px solid var(--border);
+                border-radius: 3px;
+                padding: 2.75rem;
+                background: var(--card-bg);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                opacity: 1;
+                transform: none;
+            }
+
+            .exp-card:first-child,
+            .exp-card:last-child {
+                border-top: 1px solid var(--border);
+            }
+
+            .exp-card:hover {
+                border-color: var(--border-hover);
+                background: rgba(201, 169, 110, 0.05);
+            }
+
+            .exp-card-index {
+                display: block;
+                font-family: var(--mono);
+                font-size: 0.7rem;
+                color: var(--accent);
+                letter-spacing: 0.15em;
+                margin-bottom: 1.5rem;
+            }
+
+            .exp-date {
+                margin-bottom: 1rem;
+            }
+
+            .exp-track-end {
+                display: flex;
+                flex-shrink: 0;
+                width: 200px;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: center;
+                gap: 1rem;
+                color: var(--text-muted);
+                font-family: var(--mono);
+                font-size: 0.7rem;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+            }
+
+            .exp-track-end i {
+                font-size: 1.4rem;
+                color: var(--accent);
+            }
+
+            .exp-scroll-hint {
+                position: absolute;
+                bottom: 1.5rem;
+                left: 3rem;
+                font-family: var(--mono);
+                font-size: 0.65rem;
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
+                color: var(--text-muted);
+                display: flex;
+                align-items: center;
+                gap: 0.6rem;
+                opacity: 0.7;
+            }
+
+            .exp-scroll-hint i {
+                animation: scrollHintMove 1.6s ease-in-out infinite;
+            }
+        }
+
+        @keyframes scrollHintMove {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            50% {
+                transform: translateX(6px);
+            }
         }
 
         /* ─── EDUCATION ─── */
@@ -930,91 +1363,6 @@
             }
         }
 
-        /* ─── SECTION SPACING ─── */
-        .section-pad {
-            padding: 8rem 0;
-        }
-
-        /* ─── HAMBURGER ─── */
-        .hamburger {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            z-index: 1002;
-        }
-
-        .hamburger span {
-            display: block;
-            width: 22px;
-            height: 1.5px;
-            background: var(--text);
-            transition: transform 0.3s ease, opacity 0.3s ease;
-            transform-origin: center;
-        }
-
-        .hamburger.active span:nth-child(1) {
-            transform: translateY(6.5px) rotate(45deg);
-        }
-
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .hamburger.active span:nth-child(3) {
-            transform: translateY(-6.5px) rotate(-45deg);
-        }
-
-        /* ─── MOBILE MENU ─── */
-        .mobile-menu {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 1001;
-            background: var(--bg);
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 2.5rem;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
-        }
-
-        .mobile-menu.open {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .mobile-menu a {
-            font-family: var(--mono);
-            font-size: 1rem;
-            color: var(--text-muted);
-            text-decoration: none;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            transition: color 0.3s ease;
-        }
-
-        .mobile-menu a:hover {
-            color: var(--accent);
-        }
-
-        /* ─── NAV ACTIVE LINK (SCROLL-SPY) ─── */
-        .nav-links a.active {
-            color: var(--text);
-        }
-
-        .nav-links a.active::after {
-            width: 100%;
-        }
-
         /* ─── REVEAL ANIMATIONS ─── */
         .reveal {
             opacity: 0;
@@ -1044,6 +1392,60 @@
             margin: 4rem 0;
         }
 
+        /* ─── REDUCED MOTION ─── */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+
+            .cursor-em,
+            .scroll-glow,
+            .progress-bar,
+            .floating-components,
+            .pcb-bg,
+            .side-rail {
+                display: none !important;
+            }
+
+            .reveal,
+            .reveal-left,
+            .reveal-right,
+            .reveal-scale {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+
+            .exp-card {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+
+            .hero-text h1 .line span,
+            .hero-sub,
+            .hero-photo,
+            .hero-contact {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+
+            .wave-divider {
+                opacity: 1 !important;
+            }
+
+            .wave-divider path {
+                stroke-dashoffset: 0 !important;
+            }
+
+            .stat-num {
+                transform: none !important;
+            }
+        }
+
         /* ─── RESPONSIVE ─── */
         @media (max-width: 900px) {
             .hero-inner {
@@ -1059,11 +1461,6 @@
             .about-grid {
                 grid-template-columns: 1fr;
                 gap: 3rem;
-            }
-
-            .exp-item {
-                grid-template-columns: 1fr;
-                gap: 0.5rem;
             }
 
             .edu-grid {
@@ -1092,7 +1489,11 @@
                 text-align: center;
             }
 
-            .cursor {
+            .cursor-em {
+                display: none;
+            }
+
+            .side-rail {
                 display: none;
             }
         }
@@ -1102,14 +1503,6 @@
                 display: none;
             }
 
-            .hamburger {
-                display: flex;
-            }
-
-            .mobile-menu {
-                display: flex;
-            }
-
             .hero {
                 padding-bottom: 4rem;
             }
@@ -1117,9 +1510,106 @@
             .hero-text h1 {
                 font-size: 2.8rem;
             }
+        }
 
-            .section-pad {
-                padding: 5rem 0;
+        /* ─── PRINT STYLESHEET ─── */
+        @media print {
+
+            nav,
+            .cursor-em,
+            .progress-bar,
+            .scroll-glow,
+            .loader,
+            .theme-transition,
+            .print-btn,
+            .exp-scroll-hint,
+            .exp-track-end,
+            .section-icon,
+            .cta-icons,
+            .pcb-bg,
+            .floating-components,
+            .wave-divider,
+            .side-rail,
+            footer {
+                display: none !important;
+            }
+
+            html,
+            body {
+                background: #ffffff !important;
+                color: #111111 !important;
+                overflow: visible !important;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                box-shadow: none !important;
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+            }
+
+            /* Force every scroll-reveal element visible, regardless of scroll position */
+            .reveal,
+            .reveal-left,
+            .reveal-right,
+            .reveal-scale,
+            .stat,
+            .edu-item,
+            .exp-card,
+            .hero-text,
+            .hero-photo,
+            .hero-sub,
+            .hero-contact {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+
+            .card,
+            .exp-card {
+                background: #ffffff !important;
+                border: 1px solid #ccc !important;
+                break-inside: avoid;
+            }
+
+            .exp-pin-wrap {
+                height: auto !important;
+                overflow: visible !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                display: block !important;
+            }
+
+            .exp-track {
+                display: block !important;
+                transform: none !important;
+                width: auto !important;
+            }
+
+            .exp-card {
+                display: block !important;
+                width: 100% !important;
+                page-break-inside: avoid;
+                margin-bottom: 1rem;
+            }
+
+            section {
+                padding: 1.5rem 0 !important;
+            }
+
+            .hero {
+                min-height: auto !important;
+                padding-top: 2rem !important;
+            }
+
+            a {
+                color: inherit !important;
+                text-decoration: none !important;
+            }
+
+            .btn-download,
+            .cta-title-link {
+                border: 1px solid #999 !important;
             }
         }
     </style>
@@ -1127,28 +1617,192 @@
 
 <body>
 
+    <!-- FLOATING ELECTRONIC COMPONENTS -->
+    <div class="floating-components" id="floatingComps">
+        <!-- IC Chip 14-pin -->
+        <div class="floating-comp" data-speed="0.03" data-x="8" data-y="15">
+            <svg width="60" height="40" viewBox="0 0 60 40">
+                <rect x="10" y="5" width="40" height="30" rx="2" />
+                <line x1="15" y1="5" x2="15" y2="0" /><line x1="25" y1="5" x2="25" y2="0" />
+                <line x1="35" y1="5" x2="35" y2="0" /><line x1="45" y1="5" x2="45" y2="0" />
+                <line x1="15" y1="35" x2="15" y2="40" /><line x1="25" y1="35" x2="25" y2="40" />
+                <line x1="35" y1="35" x2="35" y2="40" /><line x1="45" y1="35" x2="45" y2="40" />
+                <circle cx="17" cy="12" r="2" fill="currentColor" stroke="none" />
+            </svg>
+        </div>
+        <!-- Resistor axial -->
+        <div class="floating-comp" data-speed="0.05" data-x="85" data-y="25">
+            <svg width="80" height="20" viewBox="0 0 80 20">
+                <line x1="0" y1="10" x2="15" y2="10" />
+                <polyline points="15,10 20,2 30,18 40,2 50,18 60,2 65,10" />
+                <line x1="65" y1="10" x2="80" y2="10" />
+            </svg>
+        </div>
+        <!-- Capacitor electrolytic -->
+        <div class="floating-comp" data-speed="0.02" data-x="75" data-y="70">
+            <svg width="30" height="50" viewBox="0 0 30 50">
+                <line x1="15" y1="0" x2="15" y2="15" />
+                <ellipse cx="15" cy="20" rx="12" ry="4" />
+                <ellipse cx="15" cy="30" rx="12" ry="4" />
+                <line x1="15" y1="34" x2="15" y2="50" />
+                <text x="8" y="26" font-size="6" fill="currentColor" stroke="none" font-family="monospace">+</text>
+            </svg>
+        </div>
+        <!-- Transistor TO-92 -->
+        <div class="floating-comp" data-speed="0.04" data-x="15" data-y="75">
+            <svg width="30" height="40" viewBox="0 0 30 40">
+                <path d="M8,15 Q15,0 22,15 L22,25 Q15,35 8,25 Z" />
+                <line x1="12" y1="25" x2="12" y2="40" />
+                <line x1="15" y1="25" x2="15" y2="40" />
+                <line x1="18" y1="25" x2="18" y2="40" />
+            </svg>
+        </div>
+        <!-- Diode -->
+        <div class="floating-comp" data-speed="0.035" data-x="50" data-y="50">
+            <svg width="60" height="16" viewBox="0 0 60 16">
+                <line x1="0" y1="8" x2="18" y2="8" />
+                <polygon points="18,1 38,8 18,15" />
+                <line x1="38" y1="1" x2="38" y2="15" />
+                <line x1="38" y1="8" x2="60" y2="8" />
+            </svg>
+        </div>
+        <!-- Inductor -->
+        <div class="floating-comp" data-speed="0.025" data-x="40" data-y="10">
+            <svg width="70" height="20" viewBox="0 0 70 20">
+                <line x1="0" y1="14" x2="10" y2="14" />
+                <path d="M10,14 Q15,0 20,14 Q25,0 30,14 Q35,0 40,14 Q45,0 50,14 Q55,0 60,14" fill="none" />
+                <line x1="60" y1="14" x2="70" y2="14" />
+            </svg>
+        </div>
+        <!-- Crystal oscillator -->
+        <div class="floating-comp" data-speed="0.045" data-x="92" data-y="45">
+            <svg width="24" height="40" viewBox="0 0 24 40">
+                <line x1="12" y1="0" x2="12" y2="8" />
+                <rect x="4" y="8" width="16" height="24" rx="1" />
+                <line x1="12" y1="32" x2="12" y2="40" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- PCB CIRCUIT BOARD BACKGROUND -->
+    <svg class="pcb-bg" id="pcbBg" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+        <defs>
+            <pattern id="pcbGrid" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+                <circle cx="40" cy="40" r="1.5" fill="rgba(201,169,110,0.08)" />
+            </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#pcbGrid)" />
+        <!-- Horizontal traces -->
+        <line class="pcb-trace" x1="0" y1="120" x2="280" y2="120" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <line class="pcb-trace" x1="320" y1="120" x2="400" y2="120" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <circle cx="300" cy="120" r="4" fill="none" stroke="rgba(201,169,110,0.08)" stroke-width="1" />
+        <line class="pcb-trace" x1="100" y1="300" x2="500" y2="300" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <line class="pcb-trace" x1="540" y1="300" x2="700" y2="300" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <circle cx="520" cy="300" r="4" fill="none" stroke="rgba(201,169,110,0.08)" stroke-width="1" />
+        <!-- Vertical traces -->
+        <line class="pcb-trace" x1="200" y1="0" x2="200" y2="250" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <line class="pcb-trace" x1="200" y1="290" x2="200" y2="500" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <circle cx="200" cy="270" r="4" fill="none" stroke="rgba(201,169,110,0.08)" stroke-width="1" />
+        <line class="pcb-trace" x1="600" y1="80" x2="600" y2="350" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <line class="pcb-trace" x1="600" y1="390" x2="600" y2="600" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <circle cx="600" cy="370" r="4" fill="none" stroke="rgba(201,169,110,0.08)" stroke-width="1" />
+        <!-- Diagonal traces -->
+        <line class="pcb-trace" x1="400" y1="120" x2="400" y2="300" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <line class="pcb-trace" x1="700" y1="300" x2="700" y2="500" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <!-- Component pads -->
+        <rect x="170" y="245" width="60" height="30" rx="2" fill="none" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <rect x="570" y="345" width="60" height="30" rx="2" fill="none" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <!-- IC chip -->
+        <rect x="440" y="420" width="80" height="40" rx="2" fill="none" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <line x1="450" y1="420" x2="450" y2="410" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <line x1="470" y1="420" x2="470" y2="410" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <line x1="490" y1="420" x2="490" y2="410" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <line x1="510" y1="420" x2="510" y2="410" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <line x1="450" y1="460" x2="450" y2="470" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <line x1="470" y1="460" x2="470" y2="470" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <line x1="490" y1="460" x2="490" y2="470" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <line x1="510" y1="460" x2="510" y2="470" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <!-- Ground symbol -->
+        <line x1="300" y1="500" x2="300" y2="520" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <line x1="285" y1="520" x2="315" y2="520" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <line x1="290" y1="526" x2="310" y2="526" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <line x1="295" y1="532" x2="305" y2="532" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <!-- Resistor symbol -->
+        <line x1="50" y1="450" x2="80" y2="450" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <polyline points="80,450 85,442 95,458 105,442 115,458 125,442 130,450" fill="none" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <line x1="130" y1="450" x2="160" y2="450" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <!-- Capacitor symbol -->
+        <line x1="650" y1="150" x2="680" y2="150" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <line x1="680" y1="135" x2="680" y2="165" stroke="rgba(201,169,110,0.06)" stroke-width="1.5" />
+        <line x1="690" y1="135" x2="690" y2="165" stroke="rgba(201,169,110,0.06)" stroke-width="1.5" />
+        <line x1="690" y1="150" x2="720" y2="150" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        <!-- Repeated pattern offsets for full-page coverage -->
+        <g transform="translate(800, 0)">
+            <line class="pcb-trace" x1="0" y1="200" x2="300" y2="200" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+            <circle cx="150" cy="200" r="4" fill="none" stroke="rgba(201,169,110,0.08)" stroke-width="1" />
+            <line class="pcb-trace" x1="150" y1="200" x2="150" y2="450" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+            <rect x="100" y="400" width="100" height="50" rx="3" fill="none" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        </g>
+        <g transform="translate(0, 600)">
+            <line class="pcb-trace" x1="50" y1="100" x2="400" y2="100" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+            <circle cx="225" cy="100" r="4" fill="none" stroke="rgba(201,169,110,0.08)" stroke-width="1" />
+            <line class="pcb-trace" x1="225" y1="100" x2="225" y2="300" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+            <rect x="195" y="250" width="60" height="40" rx="2" fill="none" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        </g>
+        <g transform="translate(600, 700)">
+            <line class="pcb-trace" x1="0" y1="50" x2="250" y2="50" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+            <line class="pcb-trace" x1="125" y1="50" x2="125" y2="250" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+            <circle cx="125" cy="50" r="4" fill="none" stroke="rgba(201,169,110,0.08)" stroke-width="1" />
+        </g>
+        <g transform="translate(200, 1100)">
+            <line class="pcb-trace" x1="0" y1="0" x2="350" y2="0" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+            <line class="pcb-trace" x1="350" y1="0" x2="350" y2="200" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+            <circle cx="350" cy="0" r="4" fill="none" stroke="rgba(201,169,110,0.08)" stroke-width="1" />
+            <rect x="300" y="150" width="100" height="50" rx="2" fill="none" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+        </g>
+        <g transform="translate(900, 1000)">
+            <line class="pcb-trace" x1="0" y1="80" x2="200" y2="80" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+            <line class="pcb-trace" x1="100" y1="80" x2="100" y2="280" stroke="rgba(201,169,110,0.06)" stroke-width="1" />
+            <circle cx="100" cy="80" r="4" fill="none" stroke="rgba(201,169,110,0.08)" stroke-width="1" />
+        </g>
+    </svg>
+
+    <!-- AMBIENT SCROLL GLOW -->
+    <div class="scroll-glow" id="scrollGlow"></div>
+
     <!-- THEME TRANSITION OVERLAY -->
     <div class="theme-transition" id="themeTransition"></div>
 
     <!-- LOADER -->
     <div class="loader" id="loader">
-        <div class="loader-name">
-            <span>E</span><span>S</span><span>T</span><span>E</span><span>B</span><span>A</span><span>N</span>
-            <span>&nbsp;</span>
-            <span>G</span><span>A</span><span>R</span><span>C</span><span>Í</span><span>A</span>
+        <div class="boot-screen">
+            <div class="boot-line" data-delay="0"><span class="boot-prompt">></span> initializing system...</div>
+            <div class="boot-line" data-delay="400"><span class="boot-prompt">></span> loading profile <span class="boot-ok">[OK]</span></div>
+            <div class="boot-line" data-delay="800"><span class="boot-prompt">></span> mounting experience <span class="boot-ok">[OK]</span></div>
+            <div class="boot-line" data-delay="1200"><span class="boot-prompt">></span> loading skills <span class="boot-ok">[OK]</span></div>
+            <div class="boot-line" data-delay="1600"><span class="boot-prompt">></span> calibrating sensors <span class="boot-ok">[OK]</span></div>
+            <div class="boot-line" data-delay="2000"><span class="boot-prompt">></span> system ready<span class="boot-cursor">_</span></div>
         </div>
-        <div class="loader-line" id="loaderLine"></div>
-        <div class="loader-role" id="loaderRole">TÉCNICO EN ELECTRÓNICA</div>
+        <div class="boot-progress"><div class="boot-progress-bar" id="bootProgressBar"></div></div>
     </div>
 
-    <!-- CUSTOM CURSOR -->
-    <div class="cursor" id="cursor"></div>
+    <!-- ELECTROMAGNETIC CURSOR -->
+    <div class="cursor-em" id="cursorEm"></div>
+
+    <!-- SIDE-RAIL NAVIGATION -->
+    <nav class="side-rail" id="sideRail" aria-label="Secciones">
+        <a href="#hero" class="side-rail-dot active" data-section="hero"><span>Inicio</span></a>
+        <a href="#perfil" class="side-rail-dot" data-section="perfil"><span>Perfil</span></a>
+        <a href="#experiencia" class="side-rail-dot" data-section="experiencia"><span>Experiencia</span></a>
+        <a href="#formacion" class="side-rail-dot" data-section="formacion"><span>Formación</span></a>
+        <a href="#descargar" class="side-rail-dot" data-section="descargar"><span>CV</span></a>
+    </nav>
 
     <!-- PROGRESS BAR -->
     <div class="progress-bar" id="progressBar"></div>
 
     <!-- NAV -->
-    <nav aria-label="Navegación principal">
+    <nav>
         <a href="#hero" class="nav-logo">
             <span class="logo-short">EG</span>
             <span class="logo-part1">Esteban</span>
@@ -1160,24 +1814,16 @@
             <li><a href="#formacion">Formación</a></li>
             <li><a href="#descargar">CV</a></li>
         </ul>
-        <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
-            <i class="fas fa-sun icon-sun"></i>
-            <i class="fas fa-moon icon-moon"></i>
-        </button>
-        <button class="hamburger" id="hamburger" aria-label="Abrir menú">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
+        <div class="nav-actions">
+            <button class="print-btn" id="printBtn" aria-label="Vista de impresión" title="Vista de impresión">
+                <i class="fas fa-print"></i>
+            </button>
+            <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
+                <i class="fas fa-sun icon-sun"></i>
+                <i class="fas fa-moon icon-moon"></i>
+            </button>
+        </div>
     </nav>
-
-    <!-- MOBILE MENU -->
-    <div class="mobile-menu" id="mobileMenu">
-        <a href="#perfil">Perfil</a>
-        <a href="#experiencia">Experiencia</a>
-        <a href="#formacion">Formación</a>
-        <a href="#descargar">CV</a>
-    </div>
 
     <!-- HERO -->
     <section id="hero" class="hero">
@@ -1208,7 +1854,7 @@
     </section>
 
     <!-- PERFIL -->
-    <section id="perfil" class="section-pad">
+    <section id="perfil" class="bg-alt" style="padding:8rem 0;">
         <div class="container">
             <div class="section-header reveal">
                 <span class="section-num">01</span>
@@ -1230,19 +1876,19 @@
                 </div>
                 <div class="about-stats reveal">
                     <div class="stat">
-                        <div class="stat-num">13+</div>
+                        <div class="stat-num" data-count="13" data-suffix="+">0+</div>
                         <div class="stat-label">Años de experiencia</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-num">4</div>
+                        <div class="stat-num" data-count="4" data-suffix="">0</div>
                         <div class="stat-label">Empresas</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-num">6</div>
+                        <div class="stat-num" data-count="6" data-suffix="">0</div>
                         <div class="stat-label">Áreas técnicas</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-num">2</div>
+                        <div class="stat-num" data-count="2" data-suffix="">0</div>
                         <div class="stat-label">Certificaciones</div>
                     </div>
                 </div>
@@ -1250,16 +1896,25 @@
         </div>
     </section>
 
+    <!-- WAVE DIVIDER: Sine -->
+    <svg class="wave-divider" viewBox="0 0 1200 60" preserveAspectRatio="none">
+        <path class="wave-glow" d="M0,30 C100,10 200,50 300,30 C400,10 500,50 600,30 C700,10 800,50 900,30 C1000,10 1100,50 1200,30" />
+        <path d="M0,30 C100,10 200,50 300,30 C400,10 500,50 600,30 C700,10 800,50 900,30 C1000,10 1100,50 1200,30" />
+    </svg>
+
     <!-- EXPERIENCIA -->
-    <section id="experiencia" class="section-pad">
+    <section id="experiencia" style="padding:8rem 0;">
         <div class="container">
             <div class="section-header reveal">
                 <span class="section-num">02</span>
                 <h2 class="section-title">Experiencia <em>Laboral</em></h2>
                 <i class="fas fa-stream section-icon"></i>
             </div>
-            <div class="exp-list">
-                <div class="exp-item">
+        </div>
+        <div class="exp-pin-wrap">
+            <div class="exp-track">
+                <div class="exp-card">
+                    <span class="exp-card-index">01 / 04</span>
                     <div class="exp-date">ABR. 2025 — JUN. 2026</div>
                     <div class="exp-content">
                         <h3>Técnico en Electrónica</h3>
@@ -1273,9 +1928,17 @@
                                 potencia</li>
                             <li>Análisis de circuitos y pruebas funcionales post-reparación</li>
                         </ul>
+                        <div class="skill-tags">
+                            <span class="skill-tag">SMD</span>
+                            <span class="skill-tag">ASIC</span>
+                            <span class="skill-tag">Reballing</span>
+                            <span class="skill-tag">Microscopio</span>
+                            <span class="skill-tag">Cama de calor</span>
+                        </div>
                     </div>
                 </div>
-                <div class="exp-item">
+                <div class="exp-card">
+                    <span class="exp-card-index">02 / 04</span>
                     <div class="exp-date">AGO. 2024 — ABR. 2025</div>
                     <div class="exp-content">
                         <h3>Técnico en Reparación</h3>
@@ -1285,9 +1948,15 @@
                                 robot, cafeteras, tostadoras</li>
                             <li>Registro de reparaciones en software interno (SG) y atención al cliente</li>
                         </ul>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Electrodomésticos</span>
+                            <span class="skill-tag">Diagnóstico</span>
+                            <span class="skill-tag">SG</span>
+                        </div>
                     </div>
                 </div>
-                <div class="exp-item">
+                <div class="exp-card">
+                    <span class="exp-card-index">03 / 04</span>
                     <div class="exp-date">MAY. 2023 — ENE. 2024</div>
                     <div class="exp-content">
                         <h3>Asistente de Mantenimiento</h3>
@@ -1301,9 +1970,18 @@
                             <li>Informática: redes, cámaras IP, programación SCADA en AVEVA Edge, SQL</li>
                             <li>Hidráulica, mecánica y refrigeración HVAC; control de stock y compras</li>
                         </ul>
+                        <div class="skill-tags">
+                            <span class="skill-tag">SCADA</span>
+                            <span class="skill-tag">SQL</span>
+                            <span class="skill-tag">HVAC</span>
+                            <span class="skill-tag">Tableros</span>
+                            <span class="skill-tag">Cámaras IP</span>
+                            <span class="skill-tag">GMP</span>
+                        </div>
                     </div>
                 </div>
-                <div class="exp-item">
+                <div class="exp-card">
+                    <span class="exp-card-index">04 / 04</span>
                     <div class="exp-date">SET. 2012 — ABR. 2023</div>
                     <div class="exp-content">
                         <h3>Gerente de Mantenimiento</h3>
@@ -1314,14 +1992,32 @@
                             <li>Gestión de presupuesto, órdenes de compra y coordinación de personal</li>
                             <li>Control de gastos y registro de maquinaria con herramientas Office y sistema SMP</li>
                         </ul>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Electricidad</span>
+                            <span class="skill-tag">Hidráulica</span>
+                            <span class="skill-tag">Neumática</span>
+                            <span class="skill-tag">Refrigeración</span>
+                            <span class="skill-tag">Gestión</span>
+                        </div>
                     </div>
                 </div>
+                <div class="exp-track-end">
+                    <i class="fas fa-flag-checkered"></i>
+                    <span>13+ años<br>de trayectoria</span>
+                </div>
             </div>
+            <div class="exp-scroll-hint"><span>Seguí scrolleando</span><i class="fas fa-arrow-right"></i></div>
         </div>
     </section>
 
+    <!-- WAVE DIVIDER: Square -->
+    <svg class="wave-divider" viewBox="0 0 1200 60" preserveAspectRatio="none">
+        <path class="wave-glow" d="M0,30 L100,30 L100,10 L300,10 L300,30 L500,30 L500,50 L700,50 L700,30 L900,30 L900,10 L1100,10 L1100,30 L1200,30" />
+        <path d="M0,30 L100,30 L100,10 L300,10 L300,30 L500,30 L500,50 L700,50 L700,30 L900,30 L900,10 L1100,10 L1100,30 L1200,30" />
+    </svg>
+
     <!-- FORMACIÓN -->
-    <section id="formacion" class="section-pad">
+    <section id="formacion" class="bg-alt" style="padding:8rem 0;">
         <div class="container">
             <div class="section-header reveal">
                 <span class="section-num">03</span>
@@ -1378,11 +2074,17 @@
         </div>
     </section>
 
+    <!-- WAVE DIVIDER: Sawtooth -->
+    <svg class="wave-divider" viewBox="0 0 1200 60" preserveAspectRatio="none">
+        <path class="wave-glow" d="M0,45 L150,15 L300,45 L450,15 L600,45 L750,15 L900,45 L1050,15 L1200,45" />
+        <path d="M0,45 L150,15 L300,45 L450,15 L600,45 L750,15 L900,45 L1050,15 L1200,45" />
+    </svg>
+
     <!-- DESCARGA -->
     <section id="descargar" class="cta-section">
         <div class="container">
             <p style="font-family: var(--mono); font-size: 0.7rem; color: var(--text-muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 2rem;"
-                class="reveal">Versión actualizada — Junio 2026</p>
+                class="reveal">Versión actualizada — Julio 2026</p>
             <a href="CV-Esteban-Garcia.pdf" download class="cta-title-link reveal-scale">
                 <h2>Descargar <em>CV</em></h2>
                 <span class="cta-icons">
@@ -1406,33 +2108,61 @@
         </div>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script>
         /* ─── SECURITY MEASURES ─── */
-        (function() {
+        (function () {
             'use strict';
 
-            document.addEventListener('contextmenu', function(e) {
+            document.addEventListener('contextmenu', function (e) {
                 e.preventDefault();
                 return false;
             });
 
-            document.addEventListener('selectstart', function(e) {
-                if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
-                    return true;
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'F12' ||
+                    (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i')) ||
+                    (e.ctrlKey && e.shiftKey && (e.key === 'J' || e.key === 'j')) ||
+                    (e.ctrlKey && (e.key === 'U' || e.key === 'u'))) {
+                    e.preventDefault();
+                    return false;
                 }
             });
 
-            document.addEventListener('dragstart', function(e) {
+            document.addEventListener('selectstart', function (e) {
+                if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+
+            document.addEventListener('dragstart', function (e) {
                 e.preventDefault();
                 return false;
             });
+
+            setInterval(function () {
+                var widthThreshold = window.outerWidth - window.innerWidth > 160;
+                var heightThreshold = window.outerHeight - window.innerHeight > 160;
+                if (widthThreshold || heightThreshold) {
+                    document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:serif;background:#0a0a0a;color:#f0ede6;"><h1 style="text-align:center;">Acceso no autorizado detectado</h1></div>';
+                    window.location.href = 'about:blank';
+                }
+            }, 1000);
+
+            var element = new Image();
+            Object.defineProperty(element, 'id', {
+                get: function () {
+                    throw new Error('DevTools blocked');
+                }
+            });
+            console.log(element);
         })();
 
         gsap.registerPlugin(ScrollTrigger);
 
-        /* ─── LOADER ANIMATION ─── */
+        /* ─── LOADER ANIMATION (BOOT SEQUENCE) ─── */
+        const bootLines = document.querySelectorAll('.boot-line');
+        const bootBar = document.getElementById('bootProgressBar');
         const tlLoader = gsap.timeline({
             onComplete: () => {
                 document.getElementById('loader').style.pointerEvents = 'none';
@@ -1440,33 +2170,25 @@
             }
         });
 
-        tlLoader
-            .to('.loader-name span', {
-                y: 0,
-                duration: 0.6,
-                stagger: 0.04,
-                ease: 'power3.out',
-                delay: 0.3
-            })
-            .to('#loaderLine', {
-                width: '80px',
-                duration: 0.8,
-                ease: 'power2.inOut'
-            }, '-=0.2')
-            .to('#loaderRole', {
-                opacity: 1,
-                duration: 0.5,
-                ease: 'power2.out'
-            }, '-=0.4')
-            .to('.loader', {
-                yPercent: -100,
-                duration: 1,
-                ease: 'power4.inOut',
-                delay: 0.5
-            });
+        /* Animate each boot line with staggered delays */
+        bootLines.forEach((line, i) => {
+            const delay = parseInt(line.dataset.delay) || i * 400;
+            tlLoader.call(() => {
+                line.classList.add('visible');
+                bootBar.style.width = ((i + 1) / bootLines.length * 100) + '%';
+            }, null, delay / 1000);
+        });
 
-        /* ─── CUSTOM CURSOR ─── */
-        const cursor = document.getElementById('cursor');
+        /* After all lines shown, slide the loader away */
+        tlLoader.to('.loader', {
+            yPercent: -100,
+            duration: 0.8,
+            ease: 'power4.inOut',
+            delay: 0.8
+        }, '+=0.2');
+
+        /* ─── ELECTROMAGNETIC CURSOR ─── */
+        const cursorEm = document.getElementById('cursorEm');
         let mouseX = 0, mouseY = 0;
         let cursorX = 0, cursorY = 0;
 
@@ -1476,17 +2198,195 @@
         });
 
         function animateCursor() {
-            cursorX += (mouseX - cursorX) * 0.12;
-            cursorY += (mouseY - cursorY) * 0.12;
-            cursor.style.left = cursorX + 'px';
-            cursor.style.top = cursorY + 'px';
+            cursorX += (mouseX - cursorX) * 0.15;
+            cursorY += (mouseY - cursorY) * 0.15;
+            cursorEm.style.left = cursorX + 'px';
+            cursorEm.style.top = cursorY + 'px';
             requestAnimationFrame(animateCursor);
         }
         animateCursor();
 
-        document.querySelectorAll('a, button, .btn-download, .hero-photo').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        document.querySelectorAll('a, button, .btn-download, .hero-photo, .cta-title-link').forEach(el => {
+            el.addEventListener('mouseenter', () => cursorEm.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => cursorEm.classList.remove('hovering'));
+        });
+
+        /* ─── SIDE-RAIL NAVIGATION ─── */
+        const sideRailDots = document.querySelectorAll('.side-rail-dot');
+        const sectionIds = ['hero', 'perfil', 'experiencia', 'formacion', 'descargar'];
+
+        function updateSideRail() {
+            let current = 'hero';
+            sectionIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top <= window.innerHeight * 0.5) {
+                        current = id;
+                    }
+                }
+            });
+            sideRailDots.forEach(dot => {
+                dot.classList.toggle('active', dot.dataset.section === current);
+            });
+        }
+
+        window.addEventListener('scroll', updateSideRail, { passive: true });
+        updateSideRail();
+
+        sideRailDots.forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.getElementById(dot.dataset.section);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        /* ─── SPLIT TEXT ANIMATION ─── */
+        function splitTextToChars(el) {
+            const text = el.textContent;
+            el.innerHTML = '';
+            [...text].forEach(char => {
+                const span = document.createElement('span');
+                span.className = 'split-char' + (char === ' ' ? ' space' : '');
+                span.textContent = char === ' ' ? '' : char;
+                el.appendChild(span);
+            });
+            return el.querySelectorAll('.split-char');
+        }
+
+        /* Split hero name characters */
+        document.querySelectorAll('.hero-text h1 .line span').forEach(el => {
+            const chars = splitTextToChars(el);
+            gsap.to(chars, {
+                opacity: 1,
+                y: 0,
+                rotateX: 0,
+                duration: 0.6,
+                stagger: 0.03,
+                ease: 'power3.out',
+                delay: 3.4
+            });
+        });
+
+        /* Split section titles on scroll */
+        document.querySelectorAll('.section-title').forEach(title => {
+            const originalHTML = title.innerHTML;
+            const emTag = title.querySelector('em');
+            let emContent = '';
+            let emStyles = '';
+            if (emTag) {
+                emContent = emTag.textContent;
+                emStyles = emTag.getAttribute('style') || '';
+            }
+
+            /* Get just the text content, preserving the em tag */
+            const textNodes = [];
+            title.childNodes.forEach(node => {
+                if (node.nodeType === 3) {
+                    textNodes.push({ type: 'text', content: node.textContent });
+                } else if (node.tagName === 'EM') {
+                    textNodes.push({ type: 'em', content: node.textContent });
+                }
+            });
+
+            title.innerHTML = '';
+            const allChars = [];
+
+            textNodes.forEach(part => {
+                if (part.type === 'em') {
+                    const em = document.createElement('em');
+                    if (emStyles) em.setAttribute('style', emStyles);
+                    [...part.content].forEach(char => {
+                        const span = document.createElement('span');
+                        span.className = 'split-char' + (char === ' ' ? ' space' : '');
+                        span.textContent = char === ' ' ? '' : char;
+                        em.appendChild(span);
+                        allChars.push(span);
+                    });
+                    title.appendChild(em);
+                } else {
+                    [...part.content].forEach(char => {
+                        const span = document.createElement('span');
+                        span.className = 'split-char' + (char === ' ' ? ' space' : '');
+                        span.textContent = char === ' ' ? '' : char;
+                        title.appendChild(span);
+                        allChars.push(span);
+                    });
+                }
+            });
+
+            ScrollTrigger.create({
+                trigger: title,
+                start: 'top 85%',
+                once: true,
+                onEnter: () => {
+                    gsap.to(allChars, {
+                        opacity: 1,
+                        y: 0,
+                        rotateX: 0,
+                        duration: 0.5,
+                        stagger: 0.02,
+                        ease: 'power3.out'
+                    });
+                }
+            });
+        });
+
+        /* ─── ACCENT COLOR MODULATION BY SCROLL ─── */
+        function updateAccentColor() {
+            const scrollY = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const pct = docHeight > 0 ? scrollY / docHeight : 0;
+
+            /* Shift hue: 38(gold) → 25(copper) → 15(bronze) → 38(gold) */
+            let hue;
+            if (pct < 0.33) {
+                hue = 38 - (pct / 0.33) * 13;
+            } else if (pct < 0.66) {
+                hue = 25 - ((pct - 0.33) / 0.33) * 10;
+            } else {
+                hue = 15 + ((pct - 0.66) / 0.34) * 23;
+            }
+
+            const sat = 44 + Math.sin(pct * Math.PI) * 5;
+            const light = 61 + Math.sin(pct * Math.PI * 2) * 3;
+
+            document.documentElement.style.setProperty('--accent', `hsl(${hue}, ${sat}%, ${light}%)`);
+        }
+
+        window.addEventListener('scroll', updateAccentColor, { passive: true });
+        updateAccentColor();
+
+        /* ─── MAGNETIC HOVER ON STATS ─── */
+        document.querySelectorAll('.stat-num').forEach(el => {
+            el.parentElement.addEventListener('mousemove', (e) => {
+                const rect = el.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                const distX = e.clientX - centerX;
+                const distY = e.clientY - centerY;
+                const dist = Math.sqrt(distX * distX + distY * distY);
+                const maxDist = 120;
+
+                if (dist < maxDist) {
+                    const strength = (1 - dist / maxDist) * 8;
+                    const tx = (distX / dist) * strength;
+                    const ty = (distY / dist) * strength;
+                    el.style.transform = `translate(${tx}px, ${ty}px)`;
+                    el.style.transition = 'transform 0.1s ease-out';
+                } else {
+                    el.style.transform = 'translate(0, 0)';
+                    el.style.transition = 'transform 0.4s ease-out';
+                }
+            });
+
+            el.parentElement.addEventListener('mouseleave', () => {
+                el.style.transform = 'translate(0, 0)';
+                el.style.transition = 'transform 0.4s ease-out';
+            });
         });
 
         /* ─── PROGRESS BAR ─── */
@@ -1497,34 +2397,27 @@
             document.getElementById('progressBar').style.width = pct + '%';
         }, { passive: true });
 
-        /* ─── HERO TEXT REVEAL ─── */
-        gsap.from('.hero-text h1 .line span', {
-            yPercent: 110,
-            duration: 1.2,
-            stagger: 0.15,
-            ease: 'power4.out',
-            delay: 2.5
-        });
+        /* ─── HERO TEXT REVEAL (sub, photo, contact — h1 handled by split-text) ─── */
         gsap.from('.hero-sub', {
             opacity: 0,
             y: 20,
             duration: 0.8,
             ease: 'power2.out',
-            delay: 3
+            delay: 3.8
         });
         gsap.from('.hero-photo', {
             opacity: 0,
             scale: 0.95,
             duration: 1.2,
             ease: 'power3.out',
-            delay: 2.8
+            delay: 3.6
         });
         gsap.from('.hero-contact', {
             opacity: 0,
             y: 15,
             duration: 0.6,
             ease: 'power2.out',
-            delay: 3.2
+            delay: 4
         });
 
         /* ─── SCROLL REVEAL ANIMATIONS ─── */
@@ -1586,7 +2479,7 @@
             });
 
             /* Staggered items */
-            gsap.utils.toArray('.exp-item').forEach((el, i) => {
+            gsap.utils.toArray('.exp-card').forEach((el, i) => {
                 gsap.to(el, {
                     opacity: 1,
                     y: 0,
@@ -1632,6 +2525,110 @@
             });
         }
 
+        /* ─── AMBIENT SCROLL GLOW ─── */
+        const scrollGlow = document.getElementById('scrollGlow');
+        let glowTicking = false;
+        window.addEventListener('scroll', () => {
+            if (!glowTicking) {
+                requestAnimationFrame(() => {
+                    scrollGlow.style.transform = `translate(-50%, ${window.scrollY * 0.45}px)`;
+                    glowTicking = false;
+                });
+                glowTicking = true;
+            }
+        }, { passive: true });
+
+        /* ─── HERO PARALLAX ON SCROLL ─── */
+        gsap.to('.hero-photo', {
+            yPercent: 18,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: '.hero',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true
+            }
+        });
+        gsap.to('.hero-text', {
+            yPercent: -12,
+            opacity: 0.5,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: '.hero',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true
+            }
+        });
+
+        /* ─── ANIMATED STAT COUNTERS ─── */
+        document.querySelectorAll('.stat-num').forEach(el => {
+            const target = parseInt(el.dataset.count, 10);
+            const suffix = el.dataset.suffix || '';
+            if (isNaN(target)) return;
+            const counter = { val: 0 };
+            ScrollTrigger.create({
+                trigger: el,
+                start: 'top 90%',
+                once: true,
+                onEnter: () => {
+                    gsap.to(counter, {
+                        val: target,
+                        duration: 1.6,
+                        ease: 'power2.out',
+                        onUpdate: () => {
+                            el.textContent = Math.round(counter.val) + suffix;
+                        }
+                    });
+                }
+            });
+        });
+
+        /* ─── EXPERIENCE: PINNED HORIZONTAL SCROLL (DESKTOP ONLY) ─── */
+        let expHorizontalTween = null;
+        const mmExp = gsap.matchMedia();
+
+        mmExp.add('(min-width: 901px)', () => {
+            const wrap = document.querySelector('.exp-pin-wrap');
+            const track = document.querySelector('.exp-track');
+            if (!wrap || !track) return;
+
+            const getScrollDistance = () => Math.max(track.scrollWidth - wrap.clientWidth, 0);
+
+            expHorizontalTween = gsap.to(track, {
+                x: () => -getScrollDistance(),
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: wrap,
+                    start: 'top top+=80',
+                    end: () => '+=' + getScrollDistance(),
+                    scrub: 0.8,
+                    pin: true,
+                    anticipatePin: 1,
+                    invalidateOnRefresh: true
+                }
+            });
+
+            /* Each card gently scales in as it slides into view */
+            gsap.utils.toArray('.exp-card').forEach(card => {
+                gsap.from(card, {
+                    scale: 0.93,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: card,
+                        containerAnimation: expHorizontalTween,
+                        start: 'left 90%',
+                        end: 'left 45%',
+                        scrub: true
+                    }
+                });
+            });
+
+            return () => {
+                gsap.set(track, { clearProps: 'transform' });
+            };
+        });
+
         /* ─── SMOOTH NAV SCROLL ─── */
         document.querySelectorAll('nav a[href^="#"]').forEach(link => {
             link.addEventListener('click', (e) => {
@@ -1668,57 +2665,59 @@
             }, 600);
         });
 
-        /* ─── HAMBURGER MENU ─── */
-        const hamburger = document.getElementById('hamburger');
-        const mobileMenu = document.getElementById('mobileMenu');
-
-        if (hamburger && mobileMenu) {
-            hamburger.addEventListener('click', () => {
-                hamburger.classList.toggle('active');
-                mobileMenu.classList.toggle('open');
-            });
-
-            mobileMenu.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    hamburger.classList.remove('active');
-                    mobileMenu.classList.remove('open');
-                });
-            });
+        /* ─── PRINT ─── */
+        const printBtn = document.getElementById('printBtn');
+        if (printBtn) {
+            printBtn.addEventListener('click', () => window.print());
         }
 
-        /* ─── SCROLL SPY ─── */
-        function initScrollSpy() {
-            const sections = document.querySelectorAll('section[id]');
-            const navLinks = document.querySelectorAll('.nav-links a');
+        /* Disable pinned/scrubbed ScrollTriggers before printing so pinned
+           sections (like the horizontal experience track) don't get stuck
+           mid-transform or clipped on the printed page. */
+        window.addEventListener('beforeprint', () => {
+            ScrollTrigger.getAll().forEach(st => st.disable());
+        });
+        window.addEventListener('afterprint', () => {
+            ScrollTrigger.getAll().forEach(st => st.enable());
+            ScrollTrigger.refresh();
+        });
 
-            window.addEventListener('scroll', () => {
-                let current = '';
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop - 150;
-                    if (window.scrollY >= sectionTop) {
-                        current = section.getAttribute('id');
+        /* ─── LOGO TYPEWRITER ─── */
+        const logoText = document.querySelector('.logo-text');
+        const navLogo = document.querySelector('.nav-logo');
+        const fullText = 'Esteban García';
+        const shortText = 'EG';
+        let typewriterTimeout = null;
+
+        if (navLogo && logoText) {
+            navLogo.addEventListener('mouseenter', () => {
+                clearTimeout(typewriterTimeout);
+                let i = 2;
+                logoText.textContent = shortText;
+                const type = () => {
+                    if (i <= fullText.length) {
+                        logoText.textContent = fullText.substring(0, i);
+                        i++;
+                        typewriterTimeout = setTimeout(type, 50);
                     }
-                });
+                };
+                type();
+            });
 
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === '#' + current) {
-                        link.classList.add('active');
+            navLogo.addEventListener('mouseleave', () => {
+                clearTimeout(typewriterTimeout);
+                let i = fullText.length;
+                const untype = () => {
+                    if (i >= 2) {
+                        logoText.textContent = fullText.substring(0, i);
+                        i--;
+                        typewriterTimeout = setTimeout(untype, 30);
+                    } else {
+                        logoText.textContent = shortText;
                     }
-                });
-            }, { passive: true });
-        }
-        initScrollSpy();
-
-        /* ─── HERO PHOTO PARALLAX ─── */
-        const heroPhoto = document.querySelector('.hero-photo');
-        if (heroPhoto) {
-            window.addEventListener('scroll', () => {
-                const scrolled = window.scrollY;
-                if (scrolled < window.innerHeight) {
-                    heroPhoto.style.transform = `translateY(${scrolled * 0.15}px)`;
-                }
-            }, { passive: true });
+                };
+                untype();
+            });
         }
 
         /* ─── TITLE PARALLAX ON HOVER ─── */
@@ -1731,8 +2730,8 @@
                 const x = (e.clientX - rect.left) / rect.width - 0.5;
                 const y = (e.clientY - rect.top) / rect.height - 0.5;
 
-                title.style.transform = `rotateY(${x * 15}deg) rotateX(${-y * 15}deg) translateZ(20px)`;
-                if (num) num.style.transform = `translateX(${x * 8}px) translateY(${y * 5}px)`;
+                title.style.transform = `rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateZ(10px)`;
+                if (num) num.style.transform = `translateX(${x * 5}px) translateY(${y * 3}px)`;
             });
 
             header.addEventListener('mouseleave', () => {
@@ -1770,40 +2769,108 @@
             });
         }
 
+        /* ─── PCB TRACE ENERGY ANIMATION ─── */
+        const pcbTraces = document.querySelectorAll('.pcb-trace');
+        const pcbSvg = document.getElementById('pcbBg');
+
+        function updatePCBTraces() {
+            const scrollY = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPct = docHeight > 0 ? scrollY / docHeight : 0;
+
+            pcbTraces.forEach((trace, i) => {
+                const threshold = (i % pcbTraces.length) / pcbTraces.length;
+                if (scrollPct > threshold - 0.1) {
+                    trace.classList.add('energized');
+                } else {
+                    trace.classList.remove('energized');
+                }
+            });
+
+            /* Move PCB bg slightly with scroll for depth */
+            if (pcbSvg) {
+                pcbSvg.style.transform = `translateY(${scrollY * 0.05}px)`;
+            }
+        }
+
+        window.addEventListener('scroll', updatePCBTraces, { passive: true });
+        updatePCBTraces();
+
+        /* ─── FLOATING COMPONENTS PARALLAX ─── */
+        const floatingComps = document.querySelectorAll('.floating-comp');
+
+        function updateFloatingComps() {
+            const scrollY = window.scrollY;
+            floatingComps.forEach(comp => {
+                const speed = parseFloat(comp.dataset.speed) || 0.03;
+                const baseX = parseFloat(comp.dataset.x) || 50;
+                const baseY = parseFloat(comp.dataset.y) || 50;
+                const yOffset = scrollY * speed;
+                const xOffset = Math.sin(scrollY * 0.001 + baseX) * 15;
+                comp.style.transform = `translate(${xOffset}px, ${-yOffset}px)`;
+            });
+        }
+
+        window.addEventListener('scroll', updateFloatingComps, { passive: true });
+        updateFloatingComps();
+
+        /* ─── WAVE DIVIDER SCROLL ANIMATION ─── */
+        document.querySelectorAll('.wave-divider').forEach(wave => {
+            const paths = wave.querySelectorAll('path');
+            paths.forEach(path => {
+                const length = path.getTotalLength ? path.getTotalLength() : 2000;
+                path.style.strokeDasharray = length;
+                path.style.strokeDashoffset = length;
+            });
+
+            ScrollTrigger.create({
+                trigger: wave,
+                start: 'top 90%',
+                end: 'bottom 30%',
+                onEnter: () => wave.classList.add('visible'),
+                onUpdate: (self) => {
+                    paths.forEach(path => {
+                        const length = path.getTotalLength ? path.getTotalLength() : 2000;
+                        path.style.strokeDashoffset = length * (1 - self.progress);
+                    });
+                }
+            });
+        });
+
         /* ─── BASIC ANALYTICS ─── */
-        (function() {
+        (function () {
             'use strict';
-            
+
             var analytics = {
-                init: function() {
+                init: function () {
                     this.trackVisit();
                     this.trackScrollDepth();
                     this.trackTimeOnPage();
                     this.trackInteractions();
                 },
-                
-                trackVisit: function() {
+
+                trackVisit: function () {
                     var visits = parseInt(localStorage.getItem('cv_visits') || '0');
                     visits++;
                     localStorage.setItem('cv_visits', visits);
                     localStorage.setItem('cv_last_visit', new Date().toISOString());
                 },
-                
-                trackScrollDepth: function() {
+
+                trackScrollDepth: function () {
                     var maxScroll = 0;
                     var sections = ['hero', 'perfil', 'experiencia', 'formacion', 'descargar'];
-                    
-                    window.addEventListener('scroll', function() {
+
+                    window.addEventListener('scroll', function () {
                         var scrollTop = window.scrollY;
                         var docHeight = document.documentElement.scrollHeight - window.innerHeight;
                         var scrollPercent = Math.round((scrollTop / docHeight) * 100);
-                        
+
                         if (scrollPercent > maxScroll) {
                             maxScroll = scrollPercent;
                             localStorage.setItem('cv_max_scroll', maxScroll);
                         }
-                        
-                        sections.forEach(function(section) {
+
+                        sections.forEach(function (section) {
                             var el = document.getElementById(section);
                             if (el) {
                                 var rect = el.getBoundingClientRect();
@@ -1817,24 +2884,24 @@
                         });
                     }, { passive: true });
                 },
-                
-                trackTimeOnPage: function() {
+
+                trackTimeOnPage: function () {
                     var startTime = Date.now();
-                    
-                    window.addEventListener('beforeunload', function() {
+
+                    window.addEventListener('beforeunload', function () {
                         var timeSpent = Math.round((Date.now() - startTime) / 1000);
                         var totalTime = parseInt(localStorage.getItem('cv_total_time') || '0');
                         localStorage.setItem('cv_total_time', totalTime + timeSpent);
                     });
                 },
-                
-                trackInteractions: function() {
+
+                trackInteractions: function () {
                     var clicks = parseInt(localStorage.getItem('cv_clicks') || '0');
-                    
-                    document.addEventListener('click', function(e) {
+
+                    document.addEventListener('click', function (e) {
                         clicks++;
                         localStorage.setItem('cv_clicks', clicks);
-                        
+
                         var target = e.target.closest('a, button');
                         if (target) {
                             var action = target.href || target.textContent.trim();
@@ -1848,8 +2915,8 @@
                         }
                     });
                 },
-                
-                getReport: function() {
+
+                getReport: function () {
                     return {
                         visits: localStorage.getItem('cv_visits') || '0',
                         lastVisit: localStorage.getItem('cv_last_visit'),
@@ -1866,7 +2933,7 @@
                     };
                 }
             };
-            
+
             analytics.init();
             window.cvAnalytics = analytics;
         })();
