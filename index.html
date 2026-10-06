@@ -1863,6 +1863,83 @@
                 border: 1px solid #999 !important;
             }
         }
+    
+        /* ─── MOTION LAYER: 3D depth, direction-aware scroll ─── */
+        #perfil, #experiencia, #formacion, #descargar { position: relative; }
+        #perfil > .container, #formacion > .container, #descargar > .container { position: relative; z-index: 1; }
+        .depth3d { position: absolute; pointer-events: none; z-index: 0; perspective: 900px; will-change: transform; }
+        .cube3d { --h: calc(var(--s) / 2); position: relative; width: var(--s); height: var(--s); transform-style: preserve-3d; }
+        .cube3d i { position: absolute; inset: 0; border: 1px solid var(--accent); opacity: .5;
+            background: color-mix(in srgb, var(--accent) 7%, transparent); }
+        .cube3d i:nth-child(1) { transform: translateZ(var(--h)); }
+        .cube3d i:nth-child(2) { transform: rotateY(90deg) translateZ(var(--h)); }
+        .cube3d i:nth-child(3) { transform: rotateY(180deg) translateZ(var(--h)); }
+        .cube3d i:nth-child(4) { transform: rotateY(-90deg) translateZ(var(--h)); }
+        .cube3d i:nth-child(5) { transform: rotateX(90deg) translateZ(var(--h)); }
+        .cube3d i:nth-child(6) { transform: rotateX(-90deg) translateZ(var(--h)); }
+        .exp-pin-wrap { perspective: 1200px; }
+        @media (max-width: 900px) { .depth3d { opacity: .5; } }
+        @media print { .depth3d { display: none !important; } section { clip-path: none !important; } }
+        @media (prefers-reduced-motion: reduce) { .depth3d { display: none !important; } }
+    
+        /* ─── BRAND COLORS + LOGOS ─── */
+        @property --brand { syntax: '<color>'; inherits: true; initial-value: #c9a96e; }
+        @property --bw { syntax: '<number>'; inherits: true; initial-value: 0; }
+        :root { --accent-base: #c9a96e; transition: --brand .9s ease, --bw .9s ease;
+            --accent: color-mix(in srgb, var(--brand) calc(var(--bw) * 100%), var(--accent-base)); }
+        .scroll-glow { background: radial-gradient(circle, color-mix(in srgb, var(--accent) 16%, transparent), transparent 70%); }
+        #experiencia { isolation: isolate; }
+        #experiencia::before { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+            background: radial-gradient(55% 45% at 50% 45%, color-mix(in srgb, var(--brand) calc(var(--bw) * 18%), transparent), transparent 75%); }
+        .exp-card { --p: 0; --c: var(--cd, var(--accent)); position: relative;
+            border-color: color-mix(in srgb, var(--c) calc(var(--p) * 60%), var(--border)); }
+        [data-theme="light"] .exp-card { --c: var(--cl, var(--accent)); }
+        .exp-card::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 2px; opacity: var(--p);
+            background: linear-gradient(90deg, var(--c), transparent); }
+        .exp-card:hover { background: color-mix(in srgb, var(--c) 8%, transparent); }
+        .exp-logo { position: absolute; top: 2rem; right: 0; width: 56px; height: 56px; border-radius: 14px; overflow: hidden;
+            opacity: 0; transform: scale(.4) rotate(-14deg); z-index: 2;
+            box-shadow: 0 8px 26px -6px color-mix(in srgb, var(--c) 70%, transparent);
+            outline: 1px solid color-mix(in srgb, var(--c) 45%, transparent); }
+        .exp-logo img { width: 100%; height: 100%; object-fit: cover; display: block; -webkit-user-drag: none; }
+        @media (min-width: 901px) { .exp-logo { top: 1.6rem; right: 1.6rem; width: 72px; height: 72px; border-radius: 16px; } }
+        @media print, (prefers-reduced-motion: reduce) { .exp-logo { opacity: 1 !important; transform: none !important; } .exp-card { --p: 1; } }
+    
+        /* ─── 3D EXPERIENCE STAGE ─── */
+        @media screen and (prefers-reduced-motion: no-preference) {
+            .exp-pin-wrap { display: block; height: 100vh; height: 100svh; margin: 0; padding: 0; overflow: hidden; perspective: 1400px; }
+            .exp-track { display: block; position: relative; width: 100%; height: 100%; padding: 0; transform-style: preserve-3d; }
+            .exp-track-end, .exp-logo { display: none !important; }
+            .exp-card, .exp-card:first-child, .exp-card:last-child {
+                position: absolute; left: 50%; top: 50%; display: flex; flex-direction: column; z-index: 1;
+                width: min(540px, 90vw); margin: 0; padding: clamp(1.4rem, 4vw, 2.5rem); opacity: 0; border-radius: 18px;
+                border: 1px solid color-mix(in srgb, var(--c) calc(var(--p) * 60%), var(--border));
+                background: color-mix(in srgb, var(--bg) 90%, transparent);
+                backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+                box-shadow: 0 30px 80px -30px color-mix(in srgb, var(--c) 55%, transparent);
+            }
+            .exp-card::before { display: none; }
+            .exp-card:hover { background: color-mix(in srgb, var(--c) 10%, var(--bg)); }
+            .exp-stage-logo { position: absolute; left: 50%; top: 50%; opacity: 0; z-index: 0; --c: var(--cd); pointer-events: none;
+                display: flex; flex-direction: column; align-items: center; gap: .8rem; text-align: center; width: max-content; max-width: min(360px, 86vw); }
+            .sl-img { width: 112px; height: 112px; border-radius: 26px; overflow: hidden;
+                box-shadow: 0 20px 60px -10px color-mix(in srgb, var(--c) 75%, transparent), 0 0 0 1px color-mix(in srgb, var(--c) 50%, transparent); }
+            .sl-name { font-family: var(--sans); font-weight: 600; font-size: clamp(1.05rem, 3vw, 1.35rem); line-height: 1.25;
+                letter-spacing: .08em; text-transform: uppercase; color: #fff; }
+            [data-theme="light"] .sl-name { color: #000; }
+            .sl-role { font-family: var(--mono); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); }
+            [data-theme="light"] .exp-stage-logo { --c: var(--cl); }
+            .sl-img img { width: 100%; height: 100%; object-fit: cover; display: block; -webkit-user-drag: none; }
+        }
+        @media screen and (prefers-reduced-motion: no-preference) and (min-width: 901px) { .sl-img { width: 150px; height: 150px; border-radius: 34px; } }
+        @media print { .exp-stage-logo { display: none !important; } }
+
+        /* ─── ICONS (depth layers) + HERO NAME BEHIND PHOTO ─── */
+        .depth3d svg { display: block; overflow: visible; fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
+            opacity: .5; filter: drop-shadow(0 0 10px color-mix(in srgb, var(--accent) 45%, transparent)); }
+        .hero-text { position: relative; z-index: 2; }
+        .hero-photo { z-index: 3; }
+        .name-away .hero-text h1 .line { overflow: visible; }
     </style>
 </head>
 
@@ -2165,7 +2242,7 @@
                         <div class="stat-label">Años de experiencia</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-num" data-count="4" data-suffix="">0</div>
+                        <div class="stat-num" data-count="5" data-suffix="">0</div>
                         <div class="stat-label">Empresas</div>
                     </div>
                     <div class="stat">
@@ -2200,7 +2277,27 @@
         <div class="exp-pin-wrap">
             <div class="exp-track">
                 <div class="exp-card">
-                    <span class="exp-card-index">01 / 04</span>
+                    <span class="exp-card-index">01 / 05</span>
+                    <div class="exp-logo" data-bd="#9a7fe0" data-bl="#533a93"><img src="data:image/webp;base64,UklGRloFAABXRUJQVlA4IE4FAADwHACdASqQAJAAPkkkkEWioiGSm7RcKASEsrdur97k7gcSD8Z6IDzcv7N+qvuz813qAPQA/U301vYr/a70stWyTm6GTyx7UckRlb9h/KrkB2EN53znuqf6HjP+XLXdi++dT6X9gX9Z/+R62nro/br2Iv2AGhCKxpXEcRrkKL5A4FMHB+bTjBEeqhbAOhgIoIx55eeCxvwvZIQhjJ7PoRKm2OWGpjKxHouxGn0saNLRDiILO0oNUjhcWJa3juybDQCnBvMb2UCM+/uDfITkJKvDauGnABwZvfNZOUNWvqB0Bemr/Gle4JIUXyBwKi/xo4AA/vWKH//ziX/0C/8BdD/yr1c+0/CoEAAQTuK3/lxuKSV/5E6EZEv4DpWHN3ll+Vtu1VYiW776BS6U7UVE/uno4HE0Sg3Fo5nESVNM9DufF2J3Q5Rmjcv4V+X8n60AWNinrBg0kl/60eBsv5A3TToYXE09z4btHH/szwU4Epe0vZqYiG82hY+7l7PqkiW0iulla5VjgVmeiXNTwW26+Lwk/db+7KjTIvUyxsO2CgRqPPD7J/Oax6Q/eMckJh9YzKIfE+agHJJ3PRgID0a2vy9FS7lKkldpb06wHeeSXfOw7QL7OvbTApmRDMBgJ+0uc9RxJ5gGoK6SfJDwpY26sWFHyhsFLJl6p5ebMbNn479qvZYbeyjwK1rQ3SUZhEzfWtCP98u1y5LNCiR//kfW+a7pSjv0Fil4SQ29o7d7ApkVLZhK2kULVqRAgq6/evmGhypnCwOAntGcXUWJQXN28xc8j2PkP5asYQG2MWXaNfgroD6yTo4OKgdLZ2V0c+WW9r7qkd6Nh3g+YTAyV0j0Eh9vyuegaXI7Ycz1jn/IeOXFpW1SLY2FrLQ/Av0S2b88L664Eb4HEzcEeV77iWEH2FTD+rWI3m1OmoW29HFUjM+7fKpeJ/+znig7iDrNhlNjr9e8LOCGaP+G8JKbRr3pSBTn80tBJQyMUoRi+DvGMJbrxYx48ztbJU0c3F+HiPx3X3TV9qH/l8l5waJTT7u/umZ2s0IJyi/X0fE/hJ/je632rpP/h8BocOFzD71rhFtoqTizj/jvjUVjP+MN6qrsL/qgUKHfyfaPdwLYnuOX+O8KVaXIAioZbDsMmvXjK93IQEcQ17h7djzRl5kYDayFJZ9l+x4R/BX3M5fHWelU5KBR3pnra+v2KVgAbFJo0/BfcHKA/CLu9k06cH9pkVVpOvvlAG0tTchS4NMZTPEm2OT91qZ5aS/XheT/iuhFWs25rXEjGKW271hXUCH94BUvudfIv/vxkEfgD6rUT/2ye/41DeBWbtegGuRf+0b0Qzht/SB/8E8+IqpUAEZN4JLCsQaKOZpJr7UA8Hbu81WcByiYwEW/C33oFgZekEVDXEdYyo7ngAZIA7j41t71x1dnMLgCJny3KJfBK/TX20xN1Q/We6DT0GNv+Y3xydnSDRg2992JMUSlGfZ42+Ek/+KHXgpirg8/zFpvz7INYXD++9iG2ZQ3SIcp3ZOorfGTMYvievpOm/KihIPWw1S8agFxXWAwqaENKgkuW0cIGHPEQIOaR/LbXoSWfw0P8gU9oIDLqRBBfi3dXDnjVMRYXeae+gxrv9kAJvKTWnp/a43HrLaZtKa2yebKwsYxbBUuslkq1+kTCV7DA8wSJAYBJN+X+c6JYfzK0iYNRgLwDRzIofqn04+A4JxsHWMpizi2aPo/1WXEi28ojFHx+arFX/rjKGbVYgttPPyJzqNZuprdl7xEA772n4rnLvC9qUy292XrpScDYAeYRjOJgAAAAAAAAA==" alt="Logo TECMAR" width="72" height="72" draggable="false"></div>
+                    <div class="exp-date">JUL. 2026 — ACTUALIDAD</div>
+                    <div class="exp-content">
+                        <h3>Técnico en Reparación de Equipos Médicos</h3>
+                        <div class="exp-company">TECMAR</div>
+                        <ul>
+                            <li>Reparación y mantenimiento de equipos médicos, en taller y en instituciones médicas</li>
+                            <li>Diagnóstico y corrección de fallas en equipos médicos</li>
+                        </ul>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Equipos médicos</span>
+                            <span class="skill-tag">Reparación</span>
+                            <span class="skill-tag">Taller</span>
+                            <span class="skill-tag">En sitio</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="exp-card">
+                    <span class="exp-card-index">02 / 05</span>
+                    <div class="exp-logo" data-bd="#1fbfb4" data-bl="#00807f"><img src="data:image/webp;base64,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" alt="Logo Tether" width="72" height="72" draggable="false"></div>
                     <div class="exp-date">ABR. 2025 — JUN. 2026</div>
                     <div class="exp-content">
                         <h3>Técnico en Electrónica</h3>
@@ -2229,7 +2326,8 @@
                     </div>
                 </div>
                 <div class="exp-card">
-                    <span class="exp-card-index">02 / 04</span>
+                    <span class="exp-card-index">03 / 05</span>
+                    <div class="exp-logo" data-bd="#3db4f2" data-bl="#1479b8"><img src="data:image/webp;base64,UklGRvADAABXRUJQVlA4IOQDAAAwGwCdASqQAJAAPkkkj0YioiEhIMnoUAkJaW7hcdmgfyWbALkzyQDeGvJ31Z3wB2B/1rnyu6nqX+2mkB/Dfqh9c/JbTAP5J/ePydyzX5d/b/zF1iX81/t35a8wNMc/qv/A9Gr/Y8nHzb/ovti+wL+Tfzn/H/2n9zP3/+pD19+ht+1QqrLKjWORUaxyKjWORUaxtMYiyC5iQjRPjYaqUAktkclOB1DBQRITIK5ij25eh4ZFbeICsKq/p3KN0Pfysj4VirhMZKVv6VjGSTPvnBlMghpGgVuvoeVllRrHIqNY5EgAAP7/p1UAgPhNf4c+jMd9xQjn2L9uhrphP/hfyrzuzn8YVrkC9RjwsTbVYYOY/Tp+a+ssd65UHRg/1OcPuqCUYPAqwfXl5k8X27bpLAFLJg3k5m+SirDmzzqQMte5G+o8Ldi2ReRJzhLduaqsBsSqtGetDq7GCZ84lJR/NWctvc1Cbu2/+ImZCTD/2K7QH0tfYSWOZdMAnZZzHoCJH+jcM22M//C/avzT9RvHV/xFv99keJi/jQINSO3uPPf7ksSthSqbud5G0qrl5r/r8LCahZL6RE8vZj5pfdKqUnRxIQ+MxUoWN4l8If0NtEKfylD/Bc6uYVi9/I6Heub7vz//yKjKf/6e7gBaohafcdd38AbpYDJCGj/xvoqdJdCiFWRfuKM+CNvIjWXM1voX+4N/0HC/rZRfJCdT9AZNyXi74HEB2qB0Rjh3/+nrrTkXBJMmFrevSuCrhkwZbFDkm2obpvijZLwpV/w2jWi7cjGi8ng9yys4nWgOsRxWpiNGLfwWLUKZKZe0j+tz7ba3+zqIMnFleww4C0glolCXEG+LmwZpSyFhRRWkqOFLtMLr+0V7yblIhpq3Ub6zzvn/xA0NBpValMWhzJpcRqjF47f8zzf0+JJH3/tA6gPj6/4V/vXkKTrbgW7itNwWUs0nF5C1Z4q0DEDVxM6W0+p/9M4TheV6p4o/0rbFS9zlAEAxfwjfrOtAyrslKDCi5jSPoS2Cf9IVMc71tlbdhdbvJ/+3THS9Mo70boJ9qThrohyPSuAP/hOKX2kS9hd1cDnNnDyUtvjP/hraH/X/dEJ60dNaWnDJCGynQpMq/1/CyCwTHpzLVTEP5s5p//2nCqHXI1XOxrLi+bDaN0kXgQ2SWgcYwtMPH4MlE/xN21ckKvL2+VsMESY8Q37e1NSg0jD4r7dfWkSq3FyjOwpoYEX1+CcxMZEDDAQma7NOPeNlFSNV66r23XyxVJ6KK7TjV6qoMiYagOlX/70emTp2TIH+K/yj7gMGOfI7JxarHoUIQ9BVMgAAAAA=" alt="Logo Joacamar" width="72" height="72" draggable="false"></div>
                     <div class="exp-date">AGO. 2024 — ABR. 2025</div>
                     <div class="exp-content">
                         <h3>Técnico en Reparación</h3>
@@ -2247,7 +2345,8 @@
                     </div>
                 </div>
                 <div class="exp-card">
-                    <span class="exp-card-index">03 / 04</span>
+                    <span class="exp-card-index">04 / 05</span>
+                    <div class="exp-logo" data-bd="#3aa3a7" data-bl="#1f6568"><img src="data:image/webp;base64,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" alt="Logo Pharmin" width="72" height="72" draggable="false"></div>
                     <div class="exp-date">MAY. 2023 — ENE. 2024</div>
                     <div class="exp-content">
                         <h3>Asistente de Mantenimiento</h3>
@@ -2272,7 +2371,8 @@
                     </div>
                 </div>
                 <div class="exp-card">
-                    <span class="exp-card-index">04 / 04</span>
+                    <span class="exp-card-index">05 / 05</span>
+                    <div class="exp-logo" data-bd="#ff4b3e" data-bl="#c40008"><img src="data:image/webp;base64,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" alt="Logo McDonald's" width="72" height="72" draggable="false"></div>
                     <div class="exp-date">SET. 2012 — ABR. 2023</div>
                     <div class="exp-content">
                         <h3>Gerente de Mantenimiento</h3>
@@ -2379,7 +2479,7 @@
     <section id="descargar" class="cta-section">
         <div class="container">
             <p style="font-family: var(--mono); font-size: 0.7rem; color: var(--text-muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 2rem;"
-                class="reveal">Versión actualizada — Julio 2026</p>
+                class="reveal">Versión actualizada — Octubre 2026</p>
             <a href="CV-Esteban-Garcia.pdf" download class="cta-title-link reveal-scale">
                 <h2>Descargar <em>CV</em></h2>
                 <span class="cta-icons">
@@ -2485,6 +2585,7 @@
             onComplete: () => {
                 document.getElementById('loader').style.pointerEvents = 'none';
                 initScrollAnimations();
+                initMotion();
             }
         });
 
@@ -2672,7 +2773,7 @@
             const sat = 44 + Math.sin(pct * Math.PI) * 5;
             const light = 61 + Math.sin(pct * Math.PI * 2) * 3;
 
-            document.documentElement.style.setProperty('--accent', `hsl(${hue}, ${sat}%, ${light}%)`);
+            document.documentElement.style.setProperty('--accent-base', `hsl(${hue}, ${sat}%, ${light}%)`);
         }
 
         window.addEventListener('scroll', updateAccentColor, { passive: true });
@@ -3310,6 +3411,183 @@
                 if (e.key === 'Escape' && overlay.classList.contains('active')) closeRefModal();
             });
         })();
+    
+        /* ─── MOTION LAYER ─── */
+        function initMotion() {
+            if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            mmExp.kill(true);
+            ScrollTrigger.getAll().forEach(st => { if (st.trigger && st.trigger.classList && st.trigger.classList.contains('exp-card')) st.kill(); });
+            gsap.killTweensOf('.exp-card');
+            const root = document.documentElement;
+            const sections = ['perfil', 'experiencia', 'formacion', 'descargar'];
+
+            /* Direction-aware state: data-dir = up | down */
+            ScrollTrigger.create({
+                onUpdate: self => { root.dataset.dir = self.direction === 1 ? 'down' : 'up'; }
+            });
+
+            /* Reveals that react to direction: rise on the way down, drop back on the way up */
+            gsap.utils.toArray('.reveal, .reveal-left, .reveal-right').forEach(el => {
+                gsap.set(el, { transformPerspective: 900 });
+                const show = { opacity: 1, x: 0, y: 0, rotationX: 0, duration: .9, ease: 'power3.out', overwrite: 'auto' };
+                ScrollTrigger.create({
+                    trigger: el, start: 'top 88%', end: 'bottom 12%',
+                    onEnter: () => gsap.to(el, show),
+                    onLeave: () => gsap.to(el, { opacity: .25, y: -40, rotationX: 10, duration: .6, ease: 'power2.out', overwrite: 'auto' }),
+                    onEnterBack: () => gsap.to(el, { ...show, duration: .8 }),
+                    onLeaveBack: () => gsap.to(el, { opacity: 0, y: 60, rotationX: -8, duration: .5, ease: 'power2.in', overwrite: 'auto' })
+                });
+            });
+
+            /* Velocity skew: leans with the scroll, flips when you reverse */
+            const skewTargets = gsap.utils.toArray('#perfil > .container, #formacion > .container, #descargar > .container');
+            const skewTo = skewTargets.map(t => gsap.quickTo(t, 'skewY', { duration: .6, ease: 'power3.out' }));
+            ScrollTrigger.create({
+                onUpdate: self => {
+                    const v = gsap.utils.clamp(-2.5, 2.5, self.getVelocity() / -400);
+                    skewTo.forEach(fn => fn(v));
+                }
+            });
+            ScrollTrigger.addEventListener('scrollEnd', () => skewTo.forEach(fn => fn(0)));
+
+            /* Section morph: rounded card opens as it enters and closes as it leaves */
+            ['perfil', 'formacion'].forEach(id => {
+                const s = document.getElementById(id);
+                gsap.fromTo(s, { clipPath: 'inset(5% 4% 5% 4% round 36px)' }, {
+                    clipPath: 'inset(0% 0% 0% 0% round 0px)', ease: 'none',
+                    scrollTrigger: { trigger: s, start: 'top bottom', end: 'top 30%', scrub: true }
+                });
+                gsap.fromTo(s, { clipPath: 'inset(0% 0% 0% 0% round 0px)' }, {
+                    clipPath: 'inset(0% 4% 5% 4% round 36px)', ease: 'none', immediateRender: false,
+                    scrollTrigger: { trigger: s, start: 'bottom 70%', end: 'bottom top', scrub: true }
+                });
+            });
+
+            /* Depth layers: study/work icons that follow the scroll in 3D */
+            const ICONS = {
+                pc: '<rect x="8" y="10" width="48" height="32" rx="3"/><path d="M24 56h16M32 42v14M14 18h20M14 24h12"/>',
+                meter: '<rect x="16" y="4" width="32" height="56" rx="5"/><rect x="21" y="10" width="22" height="12" rx="1"/><circle cx="32" cy="38" r="9"/><path d="M32 29v4"/><circle cx="22" cy="53" r="2"/><circle cx="32" cy="53" r="2"/><circle cx="42" cy="53" r="2"/>',
+                solder: '<g transform="rotate(-35 32 32)"><rect x="4" y="28" width="26" height="8" rx="4"/><path d="M30 32h14M44 28v8l12-4z"/></g>',
+                chip: '<rect x="18" y="18" width="28" height="28" rx="2"/><path d="M24 10v8M32 10v8M40 10v8M24 46v8M32 46v8M40 46v8M10 24h8M10 32h8M10 40h8M46 24h8M46 32h8M46 40h8"/><circle cx="25" cy="25" r="2"/>',
+                driver: '<g transform="rotate(-40 32 32)"><rect x="6" y="27" width="20" height="10" rx="5"/><path d="M26 32h26M52 29l5 3-5 3"/></g>',
+                pcb: '<rect x="8" y="12" width="48" height="40" rx="3"/><path d="M16 24h12l6 6h14M16 42h10l4-6h18"/><circle cx="16" cy="24" r="2"/><circle cx="48" cy="30" r="2"/><circle cx="16" cy="42" r="2"/><circle cx="48" cy="36" r="2"/>'
+            };
+            const cfg = {
+                perfil: [{ k: 'pc', s: 110, r: '6%', t: '12%', sp: -140 }, { k: 'chip', s: 64, l: '4%', t: '62%', sp: 90 }],
+                experiencia: [{ k: 'meter', s: 90, r: '8%', t: '4%', sp: -110 }],
+                formacion: [{ k: 'solder', s: 100, l: '5%', t: '10%', sp: -120 }, { k: 'driver', s: 72, r: '9%', t: '72%', sp: 100 }],
+                descargar: [{ k: 'pcb', s: 120, r: '8%', t: '18%', sp: -150 }]
+            };
+            sections.forEach(id => {
+                const sec = document.getElementById(id);
+                (cfg[id] || []).forEach(c => {
+                    const w = document.createElement('div');
+                    w.className = 'depth3d';
+                    w.style.top = c.t; if (c.r) w.style.right = c.r; if (c.l) w.style.left = c.l;
+                    w.innerHTML = '<svg viewBox="0 0 64 64" width="' + c.s + '" height="' + c.s + '" aria-hidden="true">' + ICONS[c.k] + '</svg>';
+                    sec.prepend(w);
+                    const ic = w.firstChild, d = c.sp < 0 ? 1 : -1;
+                    gsap.set(ic, { transformPerspective: 700 });
+                    gsap.fromTo(w, { y: -c.sp / 2 }, { y: c.sp / 2, ease: 'none',
+                        scrollTrigger: { trigger: sec, start: 'top bottom', end: 'bottom top', scrub: 1 } });
+                    gsap.fromTo(ic, { rotationY: -35 * d, rotationX: 12, rotationZ: -8 * d }, { rotationY: 35 * d, rotationX: -12, rotationZ: 8 * d, ease: 'none',
+                        scrollTrigger: { trigger: sec, start: 'top bottom', end: 'bottom top', scrub: 1 } });
+                });
+            });
+
+            /* Hero name slides behind the profile photo on the way down, and comes back on the way up */
+            const nameSpans = gsap.utils.toArray('.hero-text h1 .line span'), heroTxt = document.querySelector('.hero-text'), heroPhoto = document.querySelector('.hero-photo');
+            if (nameSpans.length && heroPhoto && heroTxt) {
+                const gp = (e, k) => +gsap.getProperty(e, k) || 0;
+                const ctr = e => { const r = e.getBoundingClientRect(); return [r.left + r.width / 2, r.top + r.height / 2]; };
+                const off = e => [gp(e, 'x') + gp(e, 'xPercent') * e.offsetWidth / 100, gp(e, 'y') + gp(e, 'yPercent') * e.offsetHeight / 100];
+                const base = (e, extra) => { const c = ctr(e), o = off(e), x = extra ? off(extra) : [0, 0]; return [c[0] - o[0] - x[0], c[1] - o[1] - x[1]]; };
+                const hl = gsap.timeline({ scrollTrigger: { trigger: '.hero', start: 'top top', end: 'center top', scrub: .6, invalidateOnRefresh: true,
+                    onUpdate: s => root.classList.toggle('name-away', s.progress > .001) } });
+                hl.to(nameSpans, {
+                    x: (i, el) => base(heroPhoto)[0] - base(el, heroTxt)[0],
+                    y: (i, el) => base(heroPhoto)[1] + heroPhoto.offsetHeight * .18 - base(el, heroTxt)[1] + heroTxt.offsetHeight * .12,
+                    scale: .42, ease: 'power2.inOut', duration: 1
+                }, 0).to(nameSpans, { opacity: 0, ease: 'none', duration: .2 }, .8);
+            }
+
+            /* Hero photo: mouse tilt in 3D (desktop pointers only) */
+            const photo = document.querySelector('.hero-photo');
+            if (photo && matchMedia('(hover: hover)').matches) {
+                const rx = gsap.quickTo(photo, 'rotationX', { duration: .6, ease: 'power3.out' });
+                const ry = gsap.quickTo(photo, 'rotationY', { duration: .6, ease: 'power3.out' });
+                gsap.set(photo, { transformPerspective: 900 });
+                window.addEventListener('mousemove', e => {
+                    if (scrollY > innerHeight) return;
+                    ry((e.clientX / innerWidth - .5) * 14);
+                    rx((e.clientY / innerHeight - .5) * -10);
+                }, { passive: true });
+            }
+            initExpStage();
+            ScrollTrigger.refresh();
+        }
+    
+        /* ─── 3D EXPERIENCE STAGE: one centered card at a time, logos spin in and blur out behind each card ─── */
+        function initExpStage() {
+            const root = document.documentElement;
+            const wrap = document.querySelector('.exp-pin-wrap'), track = document.querySelector('.exp-track');
+            const cards = gsap.utils.toArray('.exp-card');
+            if (!wrap || !track || !cards.length) return;
+            const n = cards.length, D = 1.7, total = (n - 1) * D + 1.7;
+            let active = null, idx = -1;
+            const setBrand = c => { active = c; root.style.setProperty('--brand', getComputedStyle(c).getPropertyValue('--c').trim()); };
+            const logos = cards.map(card => {
+                const src = card.querySelector('.exp-logo');
+                const el = document.createElement('div');
+                el.className = 'exp-stage-logo';
+                ['bd', 'bl'].forEach((k, j) => {
+                    card.style.setProperty(j ? '--cl' : '--cd', src.dataset[k]);
+                    el.style.setProperty(j ? '--cl' : '--cd', src.dataset[k]);
+                });
+                const nmEl = card.querySelector('.exp-company') || card.querySelector('.exp-company-ref span:nth-child(2)');
+                el.innerHTML = '<div class="sl-img">' + src.innerHTML + '</div><div class="sl-name"></div><div class="sl-role"></div>';
+                el.querySelector('img').alt = '';
+                el.querySelector('.sl-name').textContent = nmEl ? nmEl.textContent.trim() : '';
+                el.querySelector('.sl-role').textContent = (card.querySelector('h3') || {}).textContent || '';
+                track.prepend(el); return el;
+            });
+            gsap.set(cards, { xPercent: -50, yPercent: -50, opacity: 0, transformPerspective: 1200 });
+            gsap.set(logos, { xPercent: -50, yPercent: -50, opacity: 0, transformPerspective: 900 });
+            const vh = k => () => innerHeight * k;
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: wrap, start: 'top top', end: () => '+=' + Math.round(innerHeight * total * .55),
+                    pin: true, scrub: .8, anticipatePin: 1, invalidateOnRefresh: true, refreshPriority: 1,
+                    onUpdate: self => {
+                        const k = Math.max(0, Math.min(n - 1, Math.floor((self.progress * total - .9) / D)));
+                        if (k !== idx) { idx = k; setBrand(cards[k]); }
+                    }
+                }
+            });
+            cards.forEach((card, i) => {
+                const T = i * D, logo = logos[i];
+                if (i > 0) {
+                    tl.to(cards[i - 1], { y: vh(-.3), z: -500, rotationX: -28, scale: .8, opacity: 0, duration: .6, ease: 'power2.in' }, T);
+                    tl.to(logos[i - 1], { opacity: 0, duration: .4, ease: 'none' }, T);
+                }
+                /* logo spins in (scroll back = spins out the other way) */
+                tl.fromTo(logo, { opacity: 0, rotationY: -130, scale: .5, z: -300, filter: 'blur(0px)' },
+                    { opacity: 1, rotationY: 0, scale: 1, z: 0, duration: .55, ease: 'back.out(1.4)' }, T + .05);
+                /* card rises from depth and covers it; the logo blurs as it gets covered */
+                tl.fromTo(card, { y: vh(.7), z: -250, rotationX: 35, rotationY: -10, scale: .9, opacity: 0, '--p': 0 },
+                    { y: 0, z: 0, rotationX: 0, rotationY: 0, scale: 1, opacity: 1, '--p': 1, duration: .6, ease: 'power2.out' }, T + .6);
+                tl.to(logo, { filter: 'blur(16px)', opacity: .18, scale: .8, z: -160, duration: .55, ease: 'none' }, T + .65);
+            });
+            tl.to({}, { duration: .001 }, total);
+            ScrollTrigger.create({
+                trigger: '#experiencia', start: 'top 55%', end: 'bottom 45%',
+                onEnter: () => { setBrand(cards[0]); root.style.setProperty('--bw', 1); },
+                onEnterBack: () => { setBrand(cards[n - 1]); root.style.setProperty('--bw', 1); },
+                onLeave: () => root.style.setProperty('--bw', 0),
+                onLeaveBack: () => root.style.setProperty('--bw', 0)
+            });
+            new MutationObserver(() => active && setBrand(active)).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+        }
     </script>
 </body>
 
